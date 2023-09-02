@@ -58,12 +58,12 @@ if __name__ == '__main__':
         )
     )
 
-    print(
-        delete_uom(
-            connection,
-            '8a150e8f-5cdf-5b26-b95f-87dda8889af6'
-        )
-    )
+    # print(
+    #     delete_uom(
+    #         connection,
+    #         '8a150e8f-5cdf-5b26-b95f-87dda8889af6'
+    #     )
+    # )
 
     if connection is not None:
         connection.close()

@@ -55,13 +55,13 @@ if __name__ == '__main__':
     print(
         insert_member(
             connection,
-            ['jiajunlee',0]
+            ['jiajunlee', 0]
         )
     )
 
-    print(
-        delete_member(connection, 'bc0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2')
-    )
+    # print(
+    #     delete_member(connection, 'bc0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2')
+    # )
 
     if connection is not None:
         connection.close()

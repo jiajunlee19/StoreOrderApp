@@ -66,12 +66,12 @@ if __name__ == '__main__':
         )
     )
 
-    print(
-        delete_product(
-            connection,
-            'c05f2fa9-a4bb-5e4d-abe0-bc76ef063a6f'
-        )
-    )
+    # print(
+    #     delete_product(
+    #         connection,
+    #         'c05f2fa9-a4bb-5e4d-abe0-bc76ef063a6f'
+    #     )
+    # )
 
     if connection is not None:
         connection.close()

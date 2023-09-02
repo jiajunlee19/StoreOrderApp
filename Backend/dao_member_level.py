@@ -63,9 +63,9 @@ if __name__ == '__main__':
         )
     )
 
-    print(
-        delete_member_level(connection, '18a74e86-b9a4-512e-9bbe-c47f2ec69213')
-    )
+    # print(
+    #     delete_member_level(connection, '18a74e86-b9a4-512e-9bbe-c47f2ec69213')
+    # )
 
     if connection is not None:
         connection.close()
