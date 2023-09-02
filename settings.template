@@ -1,3 +1,7 @@
-# Set your username and password here! Rename settings_template.py to settings.py
+# Rename "settings.template" to "settings.py"
+
+# Initialize your settings below!
+myHost = "localhost"
+myDatabase = "db"
 myUsername = "user"
 myPassword = "pwd"
