@@ -4,7 +4,8 @@ from db_connection import connect_mysql, generate_insert_statement
 
 def get_order(conn):
     query = """
-        select BIN_TO_UUID(order_id) as order_id, order_created_date, BIN_TO_UUID(member_id) as member_id from store.order
+        select BIN_TO_UUID(order_id) as order_id, order_created_date, BIN_TO_UUID(member_id) as member_id 
+        from store.order
     """
     cursor = conn.cursor()
     cursor.execute(query)
@@ -61,12 +62,12 @@ if __name__ == '__main__':
         )
     )
 
-    print(
-        delete_order(
-            connection,
-            '9a6029f1-ce7e-5a33-bd12-06860c3efbfd'
-        )
-    )
+    # print(
+    #     delete_order(
+    #         connection,
+    #         '9a6029f1-ce7e-5a33-bd12-06860c3efbfd'
+    #     )
+    # )
 
     if connection is not None:
         connection.close()

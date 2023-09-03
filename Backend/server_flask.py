@@ -19,6 +19,7 @@ def hello_world():
 
 connection = connect_mysql()
 
+
 @app.route('/getMember', methods=['GET'])
 def get_member():
     response = dao_member.get_member(connection)

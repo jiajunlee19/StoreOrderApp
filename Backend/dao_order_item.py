@@ -64,12 +64,12 @@ if __name__ == '__main__':
         )
     )
 
-    print(
-        delete_order_item(
-            connection,
-            'b76b5838-c32d-58fe-a8d2-9199043c639b'
-        )
-    )
+    # print(
+    #     delete_order_item(
+    #         connection,
+    #         'b76b5838-c32d-58fe-a8d2-9199043c639b'
+    #     )
+    # )
 
     if connection is not None:
         connection.close()
