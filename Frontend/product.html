@@ -37,21 +37,29 @@
             <button>
                 Add Product
             </button>
-            <table border="1">
+
+            <div role="status" id="table-product-loader">
+                <span>Loading Products...</span>
+            </div>
+ 
+            <table border="1" id="table-product">
                 <thead>
                     <th>Product Name</th>
                     <th>Unit</th>
                     <th>Unit Price</th>
                     <th>Bonus Points</th>
+                    <th>Action</th>
                 </thead>
-                <tbody>
+                <tbody id="table-product-body">
                     <tr>
+                        <td>1</td>
                         <td>1</td>
                         <td>1</td>
                         <td>1</td>
                         <td>1</td>
                     </tr>
                     <tr>
+                        <td>1</td>
                         <td>1</td>
                         <td>1</td>
                         <td>1</td>
@@ -62,4 +70,6 @@
         </main>
     </body>
 
+    <script src="js/utils.js"></script>
+    <script src="js/product.js"></script>
 </html>

@@ -1,7 +1,16 @@
 // Define your api here
-var productListApiUrl = 'http://127.0.0.1:5000/getProduct';
-var uomListApiUrl = 'http://127.0.0.1:5000/getUOM';
-var productSaveApiUrl = 'http://127.0.0.1:5000/insertProduct';
-var productDeleteApiUrl = 'http://127.0.0.1:5000/deleteProduct';
-var orderListApiUrl = 'http://127.0.0.1:5000/getAllOrders';
-var orderSaveApiUrl = 'http://127.0.0.1:5000/insertOrder';
+const productListApiUrl = 'http://127.0.0.1:5000/getProduct';
+const uomListApiUrl = 'http://127.0.0.1:5000/getUOM';
+const productSaveApiUrl = 'http://127.0.0.1:5000/insertProduct';
+const productDeleteApiUrl = 'http://127.0.0.1:5000/deleteProduct';
+const orderListApiUrl = 'http://127.0.0.1:5000/getAllOrders';
+const orderSaveApiUrl = 'http://127.0.0.1:5000/insertOrder';
+
+// Function to show/hide the loader
+function hideLoader(elementID) {
+    document.getElementById(elementID).style.display = 'none';
+};
+
+function showLoader(elementID) {
+    document.getElementById(elementID).style.display = 'block';
+}
