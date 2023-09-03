@@ -90,7 +90,7 @@ def insert_product():
 
 @app.route('/deleteMember', methods=['POST'])
 def delete_member():
-    response = dao_member.delete_member(connection, request.form['member_id'])
+    response = dao_member.delete_member(connection, request.form['id'])
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
