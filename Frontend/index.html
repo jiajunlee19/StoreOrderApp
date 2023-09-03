@@ -23,6 +23,15 @@
                 </button>
             </div>
             <nav class="header-right">
+                <a href="member.html">
+                    member
+                </a>
+                <a href="member-level.html">
+                    member_level
+                </a>
+                <a href="uom.html">
+                    uom
+                </a>
                 <a href="product.html">
                     product
                 </a>
@@ -37,19 +46,27 @@
             <button onclick="document.location='order-item.html'">
                 New Order
             </button>
+
+            <div role="status" id="table-order-loader">
+                <span>Loading Orders...</span>
+            </div>
+
             <table border="1">
-                <thead>
-                    <th>Order Created Date</th>
-                    <th>Order ID</th>
-                    <th>Member ID</th>
+                <thead id="table-order-head">
+                    <th>order_created_date</th>
+                    <th>order_id</th>
+                    <th>member_id</th>
+                    <th>Action</th>
                 </thead>
-                <tbody>
+                <tbody id="table-order-body">
                     <tr>
+                        <td>1</td>
                         <td>1</td>
                         <td>1</td>
                         <td>1</td>
                     </tr>
                     <tr>
+                        <td>1</td>
                         <td>1</td>
                         <td>1</td>
                         <td>1</td>
@@ -59,5 +76,6 @@
         </main>
     </body>
     <script src="js/utils.js"></script>
+    <script src="js/index.js"></script>
 
 </html>

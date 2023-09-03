@@ -2,6 +2,6 @@
 fetchResponseToTableBody(
     getOrderUrl, 
     'table-order-loader', 
-    ['order_created_date', 'order_id', 'member_id'], 
+    ['order_id', 'order_created_date', 'member_id'], 
     'table-order-head', 'table-order-body'
     );

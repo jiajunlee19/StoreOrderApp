@@ -27,7 +27,7 @@
                     member
                 </a>
                 <a href="member-level.html">
-                    member-level
+                    member_level
                 </a>
                 <a href="uom.html">
                     uom
@@ -35,28 +35,31 @@
                 <a href="product.html">
                     product
                 </a>
+                <a href="cart.html">
+                    cart
+                </a>
             </nav>
         </header>
 
         <main>
-            <h2>Product</h2>
+            <h2>Main Page</h2>
             <button>
-                Add Product
+                Add Member Level
             </button>
 
-            <div role="status" id="table-product-loader">
-                <span>Loading Products...</span>
+            <div role="status" id="table-memberLevel-loader">
+                <span>Loading Member Levels...</span>
             </div>
- 
+
             <table border="1">
-                <thead id="table-product-head">
-                    <th>Product Name</th>
-                    <th>Unit</th>
-                    <th>Unit Price</th>
-                    <th>Bonus Points</th>
+                <thead id="table-memberLevel-head">
+                    <th>member_level_id</th>
+                    <th>member_level</th>
+                    <th>bonus_points_min</th>
+                    <th>bonus_points_max</th>
                     <th>Action</th>
                 </thead>
-                <tbody id="table-product-body">
+                <tbody id="table-memberLevel-body">
                     <tr>
                         <td>1</td>
                         <td>1</td>
@@ -75,7 +78,7 @@
             </table>
         </main>
     </body>
-
     <script src="js/utils.js"></script>
-    <script src="js/product.js"></script>
+    <script src="js/member-level.js"></script>
+
 </html>
