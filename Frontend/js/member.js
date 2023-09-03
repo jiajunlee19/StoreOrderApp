@@ -13,8 +13,15 @@ document.addEventListener('click', function(e) {
         return;
     }
 
-    const id = e.target.dataset.memberId;
+    const id = e.target.getAttribute('data-member-id');
+    const id_json = {"member_id": id};
     console.log(id)
-    // postResponse(deleteMemberUrl, id);
+
+    const isDelete = confirm(`Are you sure to delete "${id}" ?`);
+
+    if (isDelete) {
+        postResponse(deleteMemberUrl, new URLSearchParams(id_json))
+    }
+    
 })
 

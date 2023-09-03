@@ -12,9 +12,9 @@ app = Flask(__name__)
 app.json.sort_keys = False
 
 
-@app.route("/")
+@app.route('/', methods=['GET', 'POST'])
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return "<p>Welcome to my page !</p>"
 
 
 connection = connect_mysql()

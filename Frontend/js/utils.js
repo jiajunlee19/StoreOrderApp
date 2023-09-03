@@ -24,7 +24,7 @@ function hideLoader(elementID) {
 // Function to show the loader
 function showLoader(elementID) {
     document.getElementById(elementID).style.display = 'block';
-}
+};
 
 
 // Defining async function to fetch response function, hide loader once loaded, update table HTML
@@ -101,15 +101,44 @@ async function fetchResponseToTableBody(url, loaderElementID, columnList, tableH
     // Update table innerHTML
     document.getElementById(tableHeadElementID).innerHTML = tHeadHTML;
     document.getElementById(tableBodyElementID).innerHTML = tBodyHTML;
-}
+};
 
 //post Response to url
 function postResponse(url, data) {
 
-    $.post(url, data, function (response, status) {
-        console.log(response);
-        console.log(status);
-    });
+    fetch(url, {
+        method: "POST",
+        body: data,
+        headers: {
+            "Content-type": "application/x-www-form-urlencoded"
+        },
+        cache: "no-cache"
+    })
+        .then( (response) => response.json())
+        .then( (json) => console.log(json))
 
-    return response
-}
+};
+
+//on click button-delete-row
+function onClickDeleteRow (buttonClass, dataAttributeID, url) {
+    document.addEventListener('click', function(e) {
+        if(!e.target.matches(buttonClass)) {
+            return;
+        } 
+
+        const id = e.target.getAttribute(dataAttributeID);
+        const id_json = {"member_id": id};
+
+        const isDelete = confirm(`Are you sure to delete "${id}" ?`);
+        if (isDelete) {
+            postResponse(url, new URLSearchParams(id_json))
+        }
+    })
+};
+
+//Parse JSON for member
+function parseMemberJSON(member_id) {
+    return {
+        'member_id': member_id
+    }
+};
