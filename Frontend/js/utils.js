@@ -7,6 +7,10 @@ const getUOMUrl = `${mainUrl}/getUOM`;
 const getProductUrl = `${mainUrl}/getProduct`;
 const getOrderUrl = `${mainUrl}/getOrder`;
 
+const insertMemberUrl =`${mainUrl}/insertMember`;
+
+const deleteMemberUrl =`${mainUrl}/deleteMember`;
+
 const productSaveApiUrl = 'http://127.0.0.1:5000/insertProduct';
 const productDeleteApiUrl = 'http://127.0.0.1:5000/deleteProduct';
 
@@ -21,6 +25,7 @@ function hideLoader(elementID) {
 function showLoader(elementID) {
     document.getElementById(elementID).style.display = 'block';
 }
+
 
 // Defining async function to fetch response function, hide loader once loaded, update table HTML
 async function fetchResponseToTableBody(url, loaderElementID, columnList, tableHeadElementID, tableBodyElementID) {
@@ -84,7 +89,7 @@ async function fetchResponseToTableBody(url, loaderElementID, columnList, tableH
             <tr ${trAttr}>
                 ${td}
                 <td>
-                    <button>
+                    <button class="button-delete-row" ${trAttr}>
                         delete
                     </button>
                 </td>
@@ -98,3 +103,13 @@ async function fetchResponseToTableBody(url, loaderElementID, columnList, tableH
     document.getElementById(tableBodyElementID).innerHTML = tBodyHTML;
 }
 
+//post Response to url
+function postResponse(url, data) {
+
+    $.post(url, data, function (response, status) {
+        console.log(response);
+        console.log(status);
+    });
+
+    return response
+}

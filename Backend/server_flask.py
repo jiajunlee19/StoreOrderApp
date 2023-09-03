@@ -68,6 +68,15 @@ def get_order_item():
     return response
 
 
+@app.route('/insertMember', methods=['POST'])
+def insert_member():
+    request_payload = json.loads(request.form['data'])
+    response = dao_member.insert_member(connection, request_payload)
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
 @app.route('/insertProduct', methods=['POST'])
 def insert_product():
     request_payload = json.loads(request.form['data'])
@@ -75,6 +84,14 @@ def insert_product():
     response = jsonify({
         'product_id': product_id
     })
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
+@app.route('/deleteMember', methods=['POST'])
+def delete_member():
+    response = dao_member.delete_member(connection, request.form['member_id'])
+    response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
