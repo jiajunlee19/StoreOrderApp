@@ -1,5 +1,5 @@
 import mysql.connector
-from db_connection import connect_mysql, generate_insert_statement
+from Backend.db_connection import connect_mysql, generate_insert_statement
 
 
 def get_order_item(conn):

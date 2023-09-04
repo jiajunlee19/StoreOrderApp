@@ -1,6 +1,6 @@
 from settings import myHost, myDatabase, myUsername, myPassword
 import mysql.connector
-from uuid_generation import generate_uuid
+from Backend.uuid_generation import generate_uuid
 
 __conn = None
 

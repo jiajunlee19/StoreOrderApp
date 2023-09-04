@@ -6,7 +6,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="../static/css/index.css">
     </head>
 
     <body class="body">
@@ -23,15 +23,6 @@
                 </button>
             </div>
             <nav class="header-right">
-                <a href="member.html">
-                    member
-                </a>
-                <a href="member-level.html">
-                    member_level
-                </a>
-                <a href="uom.html">
-                    uom
-                </a>
                 <a href="product.html">
                     product
                 </a>
@@ -42,26 +33,19 @@
         </header>
 
         <main>
-            <h2>Main Page</h2>
+            <h2>Order Item</h2>
             <button>
-                Add Member Level
+                Add Item
             </button>
-
-            <div role="status" id="table-memberLevel-loader">
-                <span>Loading Member Levels...</span>
-            </div>
-
             <table border="1">
-                <thead id="table-memberLevel-head">
-                    <th>member_level_id</th>
-                    <th>member_level</th>
-                    <th>bonus_points_min</th>
-                    <th>bonus_points_max</th>
-                    <th>Action</th>
+                <thead>
+                    <th>Product Name</th>
+                    <th>Unit</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
                 </thead>
-                <tbody id="table-memberLevel-body">
+                <tbody>
                     <tr>
-                        <td>1</td>
                         <td>1</td>
                         <td>1</td>
                         <td>1</td>
@@ -72,13 +56,15 @@
                         <td>1</td>
                         <td>1</td>
                         <td>1</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" align="right">Total: </td>
                         <td>1</td>
                     </tr>
                 </tbody>
             </table>
+            
         </main>
     </body>
-    <script src="js/utils.js"></script>
-    <script src="js/member-level.js"></script>
 
 </html>

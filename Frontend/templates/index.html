@@ -6,7 +6,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="../static/css/index.css">
     </head>
 
     <body class="body">
@@ -27,7 +27,7 @@
                     member
                 </a>
                 <a href="member-level.html">
-                    member-level
+                    member_level
                 </a>
                 <a href="uom.html">
                     uom
@@ -42,33 +42,30 @@
         </header>
 
         <main>
-            <h2>Product</h2>
-            <button>
-                Add Product
+            <h2>Main Page</h2>
+            <button onclick="document.location='order-item.html'">
+                New Order
             </button>
 
-            <div role="status" id="table-product-loader">
-                <span>Loading Products...</span>
+            <div role="status" id="table-order-loader">
+                <span>Loading Orders...</span>
             </div>
- 
+
             <table border="1">
-                <thead id="table-product-head">
-                    <th>Product Name</th>
-                    <th>Unit</th>
-                    <th>Unit Price</th>
-                    <th>Bonus Points</th>
+                <thead id="table-order-head">
+                    <th>order_created_date</th>
+                    <th>order_id</th>
+                    <th>member_id</th>
                     <th>Action</th>
                 </thead>
-                <tbody id="table-product-body">
+                <tbody id="table-order-body">
                     <tr>
-                        <td>1</td>
                         <td>1</td>
                         <td>1</td>
                         <td>1</td>
                         <td>1</td>
                     </tr>
                     <tr>
-                        <td>1</td>
                         <td>1</td>
                         <td>1</td>
                         <td>1</td>
@@ -78,7 +75,7 @@
             </table>
         </main>
     </body>
+    <script src="../static/js/utils.js"></script>
+    <script src="../static/js/index.js"></script>
 
-    <script src="js/utils.js"></script>
-    <script src="js/product.js"></script>
 </html>

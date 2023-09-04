@@ -1,23 +1,22 @@
-from flask import Flask, request, jsonify
+from flask import (Flask, request, jsonify, render_template)  # redirect, url_for, render_template)
 import json
-from db_connection import connect_mysql
-import dao_member
-import dao_member_level
-import dao_uom
-import dao_product
-import dao_order
-import dao_order_item
+from Backend.db_connection import connect_mysql
+from Backend import dao_member
+from Backend import dao_member_level
+from Backend import dao_uom
+from Backend import dao_product
+from Backend import dao_order
+from Backend import dao_order_item
 
 app = Flask(__name__)
 app.json.sort_keys = False
 
-
-@app.route('/', methods=['GET', 'POST'])
-def hello_world():
-    return "<p>Welcome to my page !</p>"
-
-
 connection = connect_mysql()
+
+
+@app.route('/', methods=['GET'])
+def home():
+    return render_template('index.html')
 
 
 @app.route('/getMember', methods=['GET'])
@@ -90,10 +89,10 @@ def insert_product():
 
 @app.route('/deleteMember', methods=['POST'])
 def delete_member():
-    response = dao_member.delete_member(connection, request.form['id'])
+    response = dao_member.delete_member(connection, request.form['member_id'])
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
+    return render_template('member.html')
 
 
 @app.route('/deleteProduct', methods=['POST'])
