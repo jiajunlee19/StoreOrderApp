@@ -1,38 +1,48 @@
 import mysql.connector
+from Backend.uuid_generation import generate_uuid_from_string
 from Backend.db_connection import connect_mysql, generate_insert_statement
+from datetime import datetime
+import time
 
 
 def get_member(conn):
-    query = "select BIN_TO_UUID(member_id) as member_id, member_name, member_bonus_points from store.member"
+    query = """
+        select BIN_TO_UUID(member_id) as member_id, BIN_TO_UUID(member_password) as member_password, 
+        member_bonus_points, member_created_date, member_updated_date
+        from store.member
+    """
     cursor = conn.cursor()
     cursor.execute(query)
+    result = cursor.fetchall()
+    columns = cursor.description
     response = []
-    for (member_id, member_name, member_bonus_points) in cursor:
-        response.append({
-            'member_id': member_id,
-            'member_name': member_name,
-            'member_bonus_points': member_bonus_points
-        })
+
+    if result is not None:
+        row_dict = {}
+        for i, column in enumerate(result):
+            row_dict[columns[i][0]] = column
+        response.append(row_dict)
+
     return response
 
 
-def insert_member(conn, data_list):
+def insert_member(conn, data_dict):
 
     query, data, uuid = generate_insert_statement(
         'store.member',
-        ['member_id', 'member_name', 'member_bonus_points'],
-        [0],
-        data_list,
-        [0]
+        data_dict,
+        ['member_id', 'member_password'],
+        'member_id',
+        ['member_name']
     )
 
-    print(f"query = {query}, data = {data}, uuid = {uuid}")
+    # print(f"query = {query}, data = {data}, uuid = {uuid}")
 
     try:
         cursor = conn.cursor()
         cursor.execute(query, data)
         conn.commit()
-        return f"[{uuid}] data_list = {data_list} is inserted"
+        return f"{uuid} is inserted"
 
     except mysql.connector.IntegrityError as ie:
         return f"{str(ie)}"
@@ -55,7 +65,13 @@ if __name__ == '__main__':
     print(
         insert_member(
             connection,
-            ['jiajunlee', 0]
+            {
+                "member_name": "jiajunlee",
+                "member_password": generate_uuid_from_string("abc123"),
+                "member_bonus_points": 0,
+                "member_created_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                "member_updated_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            }
         )
     )
 
