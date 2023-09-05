@@ -11,6 +11,13 @@ def generate_uuid(string_list):
     return str(uuid5)
 
 
+def generate_uuid_from_string(string: str):
+    """Generate UUID based on string"""
+    namespace = uuid.uuid5(uuid.NAMESPACE_DNS, 'jiajunlee.com')
+    uuid5 = uuid.uuid5(namespace, string)
+    return str(uuid5)
+
+
 if __name__ == "__main__":
     for i in range(0, 2):
         myUUID = generate_uuid(["abc", 123])
