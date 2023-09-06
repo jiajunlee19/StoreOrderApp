@@ -5,7 +5,7 @@ from datetime import datetime
 
 def get_member(conn):
     query = """
-        select BIN_TO_UUID(member_id) as member_id, BIN_TO_UUID(member_password) as member_password, 
+        select BIN_TO_UUID(member_id) as member_id, member_name, BIN_TO_UUID(member_password) as member_password, 
         member_bonus_points, member_created_date, member_updated_date
         from store.member
     """
