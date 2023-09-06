@@ -31,23 +31,26 @@ function showLoader(elementID) {
 async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElementID, tableBodyElementID, 
     columnListDisplay, actionUrl, columnListAction) {
     
+    //show loader until a response is fetched
     showLoader(loaderElementID)
 
-    // Storing response
+    // Fetch response
     const response = await fetch(fetchUrl);
    
     // Storing data in form of JSON
     let data = await response.json();
     console.log(data); //data is a list of objects
 
+    //if response fetched, hide the loader
     if (response) {
         hideLoader(loaderElementID);
     }
 
-
+    //Initialize table HTML
     let tHeadHTML = '';
     let tBodyHTML = '';
 
+    //for each object (a.k.a each row object)
     data.forEach(object => {
 
         // filter only object with keys defined in columnListDisplay to show in final table
@@ -57,20 +60,20 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
 
         //Form lists based on filteredObject keys
         let headerList = [];
-        let dataList = [];
+        let dataAttrList = [];
         let valueList = [];
         Object.keys(objectDisplay).forEach(key => {
             header = `<th>${key}</th>`;
             headerList.push(header)
 
-            data = `data-${key.replace('_','-')} = "${objectDisplay[key]}"`;
-            dataList.push(data);
+            dataAttr = `data-${key.replace('_','-')} = "${objectDisplay[key]}"`;
+            dataAttrList.push(dataAttr);
 
             value = `<td>${objectDisplay[key]}</td>`;
             valueList.push(value);
         });
         th = headerList.join('');
-        trAttr = dataList.join(' ');
+        trAttr = dataAttrList.join(' ');
         td = valueList.join('');
 
         
@@ -81,8 +84,8 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
 
         //for each key in object, create one line of <input> form
         let formInputList = [];
-        Object.keys(object).forEach(key => {
-            formInput = `<input type="hidden" id="${key}" name="${key}" value="${object[key]}"></input>`
+        Object.keys(objectAction).forEach(key => {
+            formInput = `<input type="hidden" id="${key}" name="${key}" value="${objectAction[key]}"></input>`
             formInputList.push(formInput)
         });
         inputs = formInputList.join('');       

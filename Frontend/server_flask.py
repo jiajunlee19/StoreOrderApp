@@ -1,4 +1,4 @@
-from flask import (Flask, request, jsonify, render_template)  # redirect, url_for, render_template)
+from flask import (Flask, request, jsonify, redirect, url_for, render_template)
 import json
 from Backend.db_connection import connect_mysql
 from Backend import dao_member
