@@ -1,22 +1,12 @@
 import mysql.connector
-from Backend.db_connection import connect_mysql, generate_insert_statement
+from Backend.db_connection import connect_mysql, generate_insert_statement, select_query
 from datetime import datetime
 
 
 def get_uom(conn):
     query = "select BIN_TO_UUID(uom_id) as uom_id, uom_name from store.uom"
     cursor = conn.cursor()
-    cursor.execute(query)
-    result = cursor.fetchall()
-    columns = cursor.description
-    response = []
-
-    if result is not None:
-        row_dict = {}
-        for i, column in enumerate(result):
-            row_dict[columns[i][0]] = column
-        response.append(row_dict)
-
+    response = select_query(cursor, query)
     return response
 
 

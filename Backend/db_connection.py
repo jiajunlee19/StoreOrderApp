@@ -86,6 +86,21 @@ def generate_insert_statement(table: str, data_dict: dict, uuid_col_list: list, 
     return query, data_tuple, uuid
 
 
+def select_query(cursor, query):
+    """Parse cursor, query and return select query response"""
+    cursor.execute(query)
+    fetched = cursor.fetchall()
+    columns = cursor.description
+    response = []
+    if cursor is not None:
+        row_dict = {}
+        for result in fetched:
+            for i, column in enumerate(result):
+                row_dict[columns[i][0]] = column
+            response.append(row_dict)
+    return response
+
+
 if __name__ == "__main__":
     connection = connect_mysql()
 
