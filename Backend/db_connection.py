@@ -1,6 +1,6 @@
 from settings import myHost, myDatabase, myUsername, myPassword
 import mysql.connector
-from Backend.uuid_generation import generate_uuid
+from Backend.uuid_generation import generate_uuid, generate_uuid_from_string
 
 __conn = None
 
@@ -29,7 +29,7 @@ def connect_mysql():
 
 
 def generate_insert_statement(table: str, data_dict: dict, uuid_col_list: list, generate_uuid_col_name: str,
-                              primary_col_list: list):
+                              primary_col_list: list, password_col_list: list):
     """
     Usage:
     1) Define table to be inserted
@@ -37,12 +37,18 @@ def generate_insert_statement(table: str, data_dict: dict, uuid_col_list: list, 
     3) All uuid-type column MUST be defined in uuid_col_list for UUID_TO_BIN conversion!
     4) If a primary UUID needs to be generated, define primary_col_list used to generate the primary UUID
         it will be named as generate_uuid_col_name!
+    5) Define all password column in password_col_list for string to UUID conversion
 
-    5)Return insert statement like :
+    6)Return insert statement like :
     INSERT INTO schema.table (person_uuid, name, gender_uuid, height)
     VALUES (UUID_TO_BIN(%s), %s, UUID_TO_BIN(%s), %s);
     ('554260d7887657ac9233f300c1c2cda3', 'jiajunlee', 'ab0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2', 170)
     """
+
+    # Hash password string into UUID form
+    if len(password_col_list) > 0:
+        for password_col in password_col_list:
+            data_dict[password_col] = generate_uuid_from_string(data_dict[password_col])
 
     # Split data_dict by key list and value list
     column_list = list(data_dict.keys())  # ['name', 'gender_uuid', 'height']
@@ -92,7 +98,8 @@ if __name__ == "__main__":
         },
         ['person_uuid', 'gender_uuid'],
         'person_uuid',
-        ['name', 'gender_uuid']
+        ['name', 'gender_uuid'],
+        []
     )
     print(Query, Data, UUID)
 
