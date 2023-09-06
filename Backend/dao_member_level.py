@@ -1,33 +1,38 @@
 import mysql.connector
 from Backend.db_connection import connect_mysql, generate_insert_statement
+from datetime import datetime
 
 
 def get_member_level(conn):
     query = """
-        select BIN_TO_UUID(member_level_id) as member_level_id, member_level, bonus_points_min, bonus_points_max 
+        select BIN_TO_UUID(member_level_id) as member_level_id, member_level, bonus_points_min, bonus_points_max,
+        member_level_created_date, member_level_updated_date
         from store.member_level
     """
     cursor = conn.cursor()
     cursor.execute(query)
+    result = cursor.fetchall()
+    columns = cursor.description
     response = []
-    for (member_level_id, member_level, bonus_points_min, bonus_points_max) in cursor:
-        response.append({
-            'member_level_id': member_level_id,
-            'member_level': member_level,
-            'bonus_points_min': bonus_points_min,
-            'bonus_points_max': bonus_points_max
-        })
+
+    if result is not None:
+        row_dict = {}
+        for i, column in enumerate(result):
+            row_dict[columns[i][0]] = column
+        response.append(row_dict)
+
     return response
 
 
-def insert_member_level(conn, data_list):
+def insert_member_level(conn, data_dict):
 
     query, data, uuid = generate_insert_statement(
         'store.member_level',
-        ['member_level_id', 'member_level', 'bonus_points_min', 'bonus_points_max'],
-        [0],
-        data_list,
-        [0]
+        data_dict,
+        ['member_level_id'],
+        'member_level_id',
+        ['member_level'],
+        []
     )
 
     print(f"query = {query}, data = {data}, uuid = {uuid}")
@@ -36,7 +41,7 @@ def insert_member_level(conn, data_list):
         cursor = conn.cursor()
         cursor.execute(query, data)
         conn.commit()
-        return f"[{uuid}] data_list = {data_list} is inserted"
+        return f"{uuid} is inserted"
 
     except mysql.connector.IntegrityError as ie:
         return f"{str(ie)}"
@@ -59,7 +64,13 @@ if __name__ == '__main__':
     print(
         insert_member_level(
             connection,
-            ['normal', 0, 10]
+            {
+                "member_level": "normal",
+                "bonus_points_min": 0,
+                "bonus_points_max": 10,
+                "member_level_created_date": datetime.now(),
+                "member_level_updated_date": datetime.now()
+            }
         )
     )
 

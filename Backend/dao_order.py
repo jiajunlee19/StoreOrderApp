@@ -1,5 +1,6 @@
 import mysql.connector
 from Backend.db_connection import connect_mysql, generate_insert_statement
+from datetime import datetime
 
 
 def get_order(conn):
@@ -9,33 +10,37 @@ def get_order(conn):
     """
     cursor = conn.cursor()
     cursor.execute(query)
+    result = cursor.fetchall()
+    columns = cursor.description
     response = []
-    for (order_id, order_created_date, member_id) in cursor:
-        response.append({
-            'order_id': order_id,
-            'order_created_date': order_created_date,
-            'member_id': member_id
-        })
+
+    if result is not None:
+        row_dict = {}
+        for i, column in enumerate(result):
+            row_dict[columns[i][0]] = column
+        response.append(row_dict)
+
     return response
 
 
-def insert_order(conn, data_list):
+def insert_order(conn, data_dict):
 
     query, data, uuid = generate_insert_statement(
         'store.order',
-        ['order_id', 'order_created_date', 'member_id'],
-        [0, 2],
-        data_list,
-        [0, 1]
+        data_dict,
+        ['order_id', 'member_id'],
+        'order_id',
+        ['member_id', 'order_created_date'],
+        []
     )
 
-    print(f"query = {query}, data = {data}, uuid = {uuid}")
+    # print(f"query = {query}, data = {data}, uuid = {uuid}")
 
     try:
         cursor = conn.cursor()
         cursor.execute(query, data)
         conn.commit()
-        return f"[{uuid}] data_list = {data_list} is inserted"
+        return f"{uuid} is inserted"
 
     except mysql.connector.IntegrityError as ie:
         return f"{str(ie)}"
@@ -58,7 +63,12 @@ if __name__ == '__main__':
     print(
         insert_order(
             connection,
-            ['2023-08-31 8:30:00', 'bc0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2']
+            {
+                "order_id": "9a6029f1-ce7e-5a33-bd12-06860c3efbfd",
+                "member_id": "bc0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2",
+                "order_created_date": datetime.now(),
+                "order_updated_date": datetime.now()
+            }
         )
     )
 

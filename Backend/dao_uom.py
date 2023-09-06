@@ -1,37 +1,43 @@
 import mysql.connector
 from Backend.db_connection import connect_mysql, generate_insert_statement
+from datetime import datetime
 
 
 def get_uom(conn):
     query = "select BIN_TO_UUID(uom_id) as uom_id, uom_name from store.uom"
     cursor = conn.cursor()
     cursor.execute(query)
+    result = cursor.fetchall()
+    columns = cursor.description
     response = []
-    for (uom_id, uom_name) in cursor:
-        response.append({
-            'uom_id': uom_id,
-            'uom_name': uom_name
-        })
+
+    if result is not None:
+        row_dict = {}
+        for i, column in enumerate(result):
+            row_dict[columns[i][0]] = column
+        response.append(row_dict)
+
     return response
 
 
-def insert_uom(conn, data_list):
+def insert_uom(conn, data_dict):
 
     query, data, uuid = generate_insert_statement(
         'store.uom',
-        ['uom_id', 'uom_name'],
-        [0],
-        data_list,
-        [0]
+        data_dict,
+        ['uom_id'],
+        'uom_id',
+        ['uom_name'],
+        []
     )
 
-    print(f"query = {query}, data = {data}, uuid = {uuid}")
+    # print(f"query = {query}, data = {data}, uuid = {uuid}")
 
     try:
         cursor = conn.cursor()
         cursor.execute(query, data)
         conn.commit()
-        return f"[{uuid}] data_list = {data_list} is inserted"
+        return f"{uuid} is inserted"
 
     except mysql.connector.IntegrityError as ie:
         return f"{str(ie)}"
@@ -54,7 +60,11 @@ if __name__ == '__main__':
     print(
         insert_uom(
             connection,
-            ['each']
+            {
+                "uom_name": "each",
+                "uom_created_date": datetime.now(),
+                "uom_updated_date": datetime.now()
+            }
         )
     )
 

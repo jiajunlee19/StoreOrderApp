@@ -1,5 +1,6 @@
 import mysql.connector
 from Backend.db_connection import connect_mysql, generate_insert_statement
+from datetime import datetime
 
 
 def get_product(conn):
@@ -13,31 +14,37 @@ def get_product(conn):
 
     cursor = conn.cursor()
     cursor.execute(query)
+    result = cursor.fetchall()
+    columns = cursor.description
     response = []
-    for (product_id, product_name, uom_id, uom_name, product_unit_price, product_bonus_points) in cursor:
-        response.append(
-            {'product_id': product_id, 'product_name': product_name, 'uom_id': uom_id, 'uom_name': uom_name,
-             'product_unit_price': product_unit_price, 'product_bonus_points': product_bonus_points})
+
+    if result is not None:
+        row_dict = {}
+        for i, column in enumerate(result):
+            row_dict[columns[i][0]] = column
+        response.append(row_dict)
+
     return response
 
 
-def insert_product(conn, data_list):
+def insert_product(conn, data_dict):
 
     query, data, uuid = generate_insert_statement(
         'store.product',
-        ['product_id', 'product_name', 'uom_id', 'product_unit_price', 'product_bonus_points'],
-        [0, 2],
-        data_list,
-        [0, 1]
+        data_dict,
+        ['product_id', 'uom_id'],
+        'product_id',
+        ['product_name', 'uom_id'],
+        []
     )
 
-    print(f"query = {query}, data = {data}, uuid = {uuid}")
+    # print(f"query = {query}, data = {data}, uuid = {uuid}")
 
     try:
         cursor = conn.cursor()
         cursor.execute(query, data)
         conn.commit()
-        return f"[{uuid}] data_list = {data_list} is inserted"
+        return f"{uuid} is inserted"
 
     except mysql.connector.IntegrityError as ie:
         return f"{str(ie)}"
@@ -62,7 +69,14 @@ if __name__ == '__main__':
     print(
         insert_product(
             connection,
-            ['pen', '8a150e8f-5cdf-5b26-b95f-87dda8889af6'.replace("-", ""), 1.5, 0.015]
+            {
+                "product_name": "pen",
+                "uom_id": "8a150e8f-5cdf-5b26-b95f-87dda8889af6",
+                "product_unit_price": 0,
+                "product_bonus_points": 0.015,
+                "product_created_date": datetime.now(),
+                "product_updated_date": datetime.now()
+            }
         )
     )
 

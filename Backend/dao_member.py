@@ -1,8 +1,6 @@
 import mysql.connector
-from Backend.uuid_generation import generate_uuid_from_string
 from Backend.db_connection import connect_mysql, generate_insert_statement
 from datetime import datetime
-import time
 
 
 def get_member(conn):
@@ -33,7 +31,8 @@ def insert_member(conn, data_dict):
         data_dict,
         ['member_id', 'member_password'],
         'member_id',
-        ['member_name']
+        ['member_name'],
+        ['member_password']
     )
 
     # print(f"query = {query}, data = {data}, uuid = {uuid}")
@@ -67,10 +66,10 @@ if __name__ == '__main__':
             connection,
             {
                 "member_name": "jiajunlee",
-                "member_password": generate_uuid_from_string("abc123"),
+                "member_password": "abc123",
                 "member_bonus_points": 0,
-                "member_created_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                "member_updated_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                "member_created_date": datetime.now(),
+                "member_updated_date": datetime.now()
             }
         )
     )
