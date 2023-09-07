@@ -2,16 +2,16 @@
 //arguments: fetchUrl, loaderElementID, tableHeadElementID, tableBodyElementID, columnListDisplay, actionUrl, columnListAction
 fetchResponseToTableBody(
     getMemberUrl, 
-    'table-member-loader', 
-    'table-member-head', 
-    'table-member-body',
+    'table-loader', 
+    'table-head', 
+    'table-body',
     ['member_id', 'member_name', 'member_bonus_points'], 
     deleteMemberUrl,
     ['member_id']
 );
 
 setInsertHTML(
-    'insert-member', 
+    'insert', 
     insertMemberUrl, 
     {
         'member_name': 'text',
@@ -22,10 +22,10 @@ setInsertHTML(
 
 // on click button-add-member
 document.addEventListener('click', function(e) {
-    if (!e.target.matches('.button-add-member')) {
+    if (!e.target.matches('.button-add')) {
         return;
     }
 
-    showElement('insert-member');
+    showElement('insert');
     
 })
