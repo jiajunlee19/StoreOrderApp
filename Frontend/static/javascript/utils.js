@@ -16,23 +16,23 @@ const productDeleteApiUrl = 'http://127.0.0.1:5000/deleteProduct';
 
 const orderSaveApiUrl = 'http://127.0.0.1:5000/insertOrder';
 
-// Function to hide the loader
-function hideLoader(elementID) {
+// Function to hide the Element
+function hideElement(elementID) {
     document.getElementById(elementID).style.display = 'none';
 };
 
-// Function to show the loader
-function showLoader(elementID) {
+// Function to show the Element
+function showElement(elementID) {
     document.getElementById(elementID).style.display = 'block';
 };
 
 
 // Defining async function to fetch response function, hide loader once loaded, update table HTML
 async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElementID, tableBodyElementID, 
-    columnListDisplay, actionUrl, columnListAction) {
+    columnListDisplay, deleteUrl, columnListDelete) {
     
     //show loader until a response is fetched
-    showLoader(loaderElementID)
+    showElement(loaderElementID)
 
     // Fetch response
     const response = await fetch(fetchUrl);
@@ -43,7 +43,7 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
 
     //if response fetched, hide the loader
     if (response) {
-        hideLoader(loaderElementID);
+        hideElement(loaderElementID);
     }
 
     //Initialize table HTML
@@ -78,14 +78,14 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
 
         
         // filter only object with keys defined in columnListAction to do update or delete
-        if (columnListAction && columnListAction.length > 0) {
-            objectAction = Object.fromEntries(Object.entries(object).filter( ([key,val]) => columnListAction.includes(key)))
+        if (columnListDelete && columnListDelete.length > 0) {
+            objectDelete = Object.fromEntries(Object.entries(object).filter( ([key,val]) => columnListDelete.includes(key)))
         }
 
         //for each key in object, create one line of <input> form
         let formInputList = [];
-        Object.keys(objectAction).forEach(key => {
-            formInput = `<input type="hidden" id="${key}" name="${key}" value="${objectAction[key]}"></input>`
+        Object.keys(objectDelete).forEach(key => {
+            formInput = `<input type="hidden" id="${key}" name="${key}" value="${objectDelete[key]}"></input>`
             formInputList.push(formInput)
         });
         inputs = formInputList.join('');       
@@ -101,7 +101,7 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
             <tr ${trAttr}>
                 ${td}
                 <td>
-                    <form action="${actionUrl}" method="post">
+                    <form action="${deleteUrl}" method="post">
                         ${inputs}
                         <input type="submit" value="delete" onclick="return confirm('Are you sure to delete ?')">
                     </form>
@@ -118,21 +118,25 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
 };
 
 
-//on click button-delete-row
-// document.addEventListener('click', function(e) {
-//     if (!e.target.matches('.button-delete-row')) {
-//         return;
-//     }
 
-//     const id = e.target.getAttribute('data-member-id');
-//     const id_json = {"id": id};
-//     console.log(id)
+// Function to set insertHTML
+function setInsertHTML(targetElementID, insertUrl, objectInsert) {
 
-//     const isDelete = confirm(`Are you sure to delete "${id}" ?`);
+    let insertHTML = ''
+    Object.keys(objectInsert).forEach(key => {
+        insertHTML += `
+            <label id="${key}" name="${key}">${key}: </label>
+            <input type="${objectInsert[key]}" id="${key}" name="${key}" required><br>
+        `
+    });
 
-//     if (isDelete) {
-//         postResponse(deleteMemberUrl, new URLSearchParams(id_json))
-//         this.location.reload()
-//     }
-    
-// })
+    document.getElementById(`${targetElementID}`).innerHTML = `
+        <form action="${insertUrl}" method="post">
+            ${insertHTML}
+            <br><input type="submit" value="submit" onclick="return confirm('Are you sure to add ?')">
+        </form>
+    `
+
+    hideElement(targetElementID);
+
+}

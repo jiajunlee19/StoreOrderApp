@@ -8,4 +8,24 @@ fetchResponseToTableBody(
     ['member_id', 'member_name', 'member_bonus_points'], 
     deleteMemberUrl,
     ['member_id']
-    );
+);
+
+setInsertHTML(
+    'insert-member', 
+    insertMemberUrl, 
+    {
+        'member_name': 'text',
+        'member_password': 'password',
+        'member_bonus_points': 'number'
+    }
+);
+
+// on click button-add-member
+document.addEventListener('click', function(e) {
+    if (!e.target.matches('.button-add-member')) {
+        return;
+    }
+
+    showElement('insert-member');
+    
+})
