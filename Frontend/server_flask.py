@@ -1,4 +1,4 @@
-from flask import (Flask, request, jsonify, redirect, url_for, render_template)
+from flask import (Flask, request, jsonify, render_template)
 import json
 from Backend.db_connection import connect_mysql
 from Backend import dao_member
@@ -69,7 +69,7 @@ def get_order_item():
 
 @app.route('/insertMember', methods=['POST'])
 def insert_member():
-    request_payload = json.loads(request.form['data'])
+    request_payload = request.form['data']
     response = dao_member.insert_member(connection, request_payload)
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
@@ -107,4 +107,4 @@ def delete_product():
 
 if __name__ == "__main__":
     print("Starting Python Flask Server For Store Order Management Application...")
-    app.run(port=5000)
+    app.run(port=5000, debug=True)

@@ -133,7 +133,7 @@ function setInsertHTML(targetElementID, insertUrl, objectInsert) {
     document.getElementById(`${targetElementID}`).innerHTML = `
         <form action="${insertUrl}" method="post">
             ${insertHTML}
-            <br><input type="submit" value="submit" onclick="return confirm('Are you sure to add ?')">
+            <br><input class="submit-insert" type="submit" value="submit" onclick="return confirm('Are you sure to add ?')">
         </form>
     `
 
