@@ -39,8 +39,8 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
    
     // Storing data in form of JSON
     let data = await response.json();
-    console.log(data); //data is objects of objects
-    // console.log(typeof data)
+    // console.log(data); 
+    // console.log(typeof data) 
 
     //if response fetched, hide the loader
     if (response) {
