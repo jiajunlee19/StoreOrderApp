@@ -12,7 +12,7 @@
     <body class="body">
         <header class="header">
             <nav class="header-left">
-                <a href="index.html">
+                <a href="{{ url_for('index') }}">
                     main-page
                 </a>
             </nav>
@@ -23,11 +23,17 @@
                 </button>
             </div>
             <nav class="header-right">
-                <a href="product.html">
-                    product
+                <a href="{{ url_for('member') }}">
+                    member
                 </a>
-                <a href="cart.html">
-                    cart
+                <a href="{{ url_for('member_level') }}">
+                    member_level
+                </a>
+                <a href="{{ url_for('uom') }}">
+                    uom
+                </a>
+                <a href="{{ url_for('product') }}">
+                    product
                 </a>
             </nav>
         </header>
@@ -37,6 +43,11 @@
             <button>
                 Add Item
             </button>
+
+            <div role="status" id="table-loader">
+                <span>Loading Order Items...</span>
+            </div>
+
             <table border="1">
                 <thead>
                     <th>Product Name</th>

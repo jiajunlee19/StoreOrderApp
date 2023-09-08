@@ -16,8 +16,38 @@ connection = connect_mysql()
 
 
 @app.route('/', methods=['GET'])
-def home():
+def index():
     return render_template('index.html')
+
+
+@app.route('/member', methods=['GET'])
+def member():
+    return render_template('member.html')
+
+
+@app.route('/member_level', methods=['GET'])
+def member_level():
+    return render_template('member_level.html')
+
+
+@app.route('/uom', methods=['GET'])
+def uom():
+    return render_template('uom.html')
+
+
+@app.route('/product', methods=['GET'])
+def product():
+    return render_template('product.html')
+
+
+@app.route('/order', methods=['GET'])
+def order():
+    return render_template('order.html')
+
+
+@app.route('/order_item', methods=['GET'])
+def order_item():
+    return render_template('order_item.html')
 
 
 @app.route('/getMember', methods=['GET'])
@@ -82,7 +112,6 @@ def insert_member():
         return response
     else:
         return render_template('member.html')
-
 
 
 @app.route('/insertProduct', methods=['POST'])

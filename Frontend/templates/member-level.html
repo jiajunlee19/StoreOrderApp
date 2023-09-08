@@ -12,7 +12,7 @@
     <body class="body">
         <header class="header">
             <nav class="header-left">
-                <a href="index.html">
+                <a href="{{ url_for('index') }}">
                     main-page
                 </a>
             </nav>
@@ -23,20 +23,17 @@
                 </button>
             </div>
             <nav class="header-right">
-                <a href="member.html">
+                <a href="{{ url_for('member') }}">
                     member
                 </a>
-                <a href="member-level.html">
+                <a href="{{ url_for('member_level') }}">
                     member_level
                 </a>
-                <a href="uom.html">
+                <a href="{{ url_for('uom') }}">
                     uom
                 </a>
-                <a href="product.html">
+                <a href="{{ url_for('product') }}">
                     product
-                </a>
-                <a href="cart.html">
-                    cart
                 </a>
             </nav>
         </header>
@@ -47,19 +44,19 @@
                 Add Member Level
             </button>
 
-            <div role="status" id="table-memberLevel-loader">
+            <div role="status" id="table-loader">
                 <span>Loading Member Levels...</span>
             </div>
 
             <table border="1">
-                <thead id="table-memberLevel-head">
+                <thead id="table-head">
                     <th>member_level_id</th>
                     <th>member_level</th>
                     <th>bonus_points_min</th>
                     <th>bonus_points_max</th>
                     <th>Action</th>
                 </thead>
-                <tbody id="table-memberLevel-body">
+                <tbody id="table-body">
                     <tr>
                         <td>1</td>
                         <td>1</td>
