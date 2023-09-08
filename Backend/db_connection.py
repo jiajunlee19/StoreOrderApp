@@ -93,11 +93,12 @@ def select_query(cursor, query):
     columns = cursor.description
     response = []
     if cursor is not None:
-        row_dict = {}
         for result in fetched:
+            row_dict = {}
             for i, column in enumerate(result):
                 row_dict[columns[i][0]] = column
             response.append(row_dict)
+
     return response
 
 

@@ -1,4 +1,5 @@
 from flask import (Flask, request, jsonify, render_template)
+from datetime import datetime
 import json
 from Backend.db_connection import connect_mysql
 from Backend import dao_member
@@ -69,11 +70,19 @@ def get_order_item():
 
 @app.route('/insertMember', methods=['POST'])
 def insert_member():
-    request_payload = request.form['data']
-    response = dao_member.insert_member(connection, request_payload)
-    response = jsonify(response)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
+    data_dict = {
+        "member_name": request.form['member_name'],
+        "member_password": request.form['member_password'],
+        "member_bonus_points": request.form['member_bonus_points'],
+        "member_created_date": datetime.now(),
+        "member_updated_date": datetime.now()
+    }
+    response = dao_member.insert_member(connection, data_dict)
+    if 'error' in response:
+        return response
+    else:
+        return render_template('member.html')
+
 
 
 @app.route('/insertProduct', methods=['POST'])

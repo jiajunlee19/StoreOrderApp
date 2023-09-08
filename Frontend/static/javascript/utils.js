@@ -39,7 +39,8 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
    
     // Storing data in form of JSON
     let data = await response.json();
-    console.log(data); //data is a list of objects
+    console.log(data); //data is objects of objects
+    // console.log(typeof data)
 
     //if response fetched, hide the loader
     if (response) {
@@ -50,21 +51,32 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
     let tHeadHTML = '';
     let tBodyHTML = '';
 
-    //for each object (a.k.a each row object)
-    data.forEach(object => {
+
+    //for each row object, generate table body HTML
+    data.forEach((object, i) => {
 
         // filter only object with keys defined in columnListDisplay to show in final table
        if (columnListDisplay && columnListDisplay.length > 0) {
             objectDisplay = Object.fromEntries(Object.entries(object).filter( ([key,val]) => columnListDisplay.includes(key)))
        }
 
-        //Form lists based on filteredObject keys
-        let headerList = [];
+        //for 1st row object, generate table header HTML
+        if (i === 0) {
+            let th ="";
+            Object.keys(objectDisplay).forEach(key => {
+                th += `<th>${key}</th>`;
+            });
+            tHeadHTML = `
+                ${th}
+                <th>Action</th>
+            `;
+        }
+
+
+        //Generate strings for table body HTML
         let dataAttrList = [];
         let valueList = [];
         Object.keys(objectDisplay).forEach(key => {
-            header = `<th>${key}</th>`;
-            headerList.push(header)
 
             dataAttr = `data-${key.replace('_','-')} = "${objectDisplay[key]}"`;
             dataAttrList.push(dataAttr);
@@ -72,7 +84,6 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
             value = `<td>${objectDisplay[key]}</td>`;
             valueList.push(value);
         });
-        th = headerList.join('');
         trAttr = dataAttrList.join(' ');
         td = valueList.join('');
 
@@ -92,11 +103,6 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
 
 
         //Finalizing tableHTML
-        tHeadHTML += `
-            ${th}
-            <th>Action</th>
-        `;
-
         tBodyHTML += `
             <tr ${trAttr}>
                 ${td}

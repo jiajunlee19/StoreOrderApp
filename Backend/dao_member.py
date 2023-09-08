@@ -34,7 +34,7 @@ def insert_member(conn, data_dict):
         return f"{uuid} is inserted"
 
     except mysql.connector.IntegrityError as ie:
-        return f"{str(ie)}"
+        return f"Integrity error: {str(ie)}"
 
 
 def delete_member(conn, member_id):
@@ -66,6 +66,10 @@ if __name__ == '__main__':
 
     # print(
     #     delete_member(connection, 'bc0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2')
+    # )
+
+    # print(
+    #     delete_member(connection, 'a3a7a769-4903-5950-8a58-d526b910cbb3')
     # )
 
     if connection is not None:
