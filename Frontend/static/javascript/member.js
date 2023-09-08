@@ -39,16 +39,16 @@ document.addEventListener('click', function(e) {
 
 
 //on click button-submit-insert
-document.addEventListener('submit', function(e) {
-    if (!e.target.matches('.submit-insert')) {
-        return;
-    }
+// document.addEventListener('submit', function(e) {
+//     if (!e.target.matches('.submit-insert')) {
+//         return;
+//     }
 
-    const data = new FormData(e.target);
-    const value = Object.fromEntries(data.entries());
-    console.log(value)
+//     const data = new FormData(e.target);
+//     const value = Object.fromEntries(data.entries());
+//     console.log(value)
     
-})
+// })
 
 //on click button-delete-row
 // document.addEventListener('click', function(e) {
