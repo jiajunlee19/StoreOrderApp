@@ -34,7 +34,7 @@ def insert_member_level(conn, data_dict):
         return f"{uuid} is inserted"
 
     except mysql.connector.IntegrityError as ie:
-        return f"{str(ie)}"
+        return f"Integrity error: {str(ie)}"
 
 
 def delete_member_level(conn, member_level_id):

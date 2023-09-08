@@ -30,7 +30,7 @@ def insert_uom(conn, data_dict):
         return f"{uuid} is inserted"
 
     except mysql.connector.IntegrityError as ie:
-        return f"{str(ie)}"
+        return f"Integrity error: {str(ie)}"
 
 
 def delete_uom(conn, uom_id):
