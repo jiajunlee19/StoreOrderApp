@@ -11,10 +11,23 @@ const insertMemberUrl =`${mainUrl}/insertMember`;
 
 const deleteMemberUrl =`${mainUrl}/deleteMember`;
 
+const updateMemberUrl =`${mainUrl}/updateMember`;
+
 const productSaveApiUrl = 'http://127.0.0.1:5000/insertProduct';
 const productDeleteApiUrl = 'http://127.0.0.1:5000/deleteProduct';
 
 const orderSaveApiUrl = 'http://127.0.0.1:5000/insertOrder';
+
+
+//Function to convert HTML collection into Array
+function collectionToArray(collection){
+    var i, length = collection.length,
+    array = [];
+    for (i = 0;i< length;i++){
+        array.push(collection[i]);
+    }
+    return array;
+};
 
 // Function to hide the Element
 function hideElement(elementID) {
@@ -29,10 +42,10 @@ function showElement(elementID) {
 
 // Defining async function to fetch response function, hide loader once loaded, update table HTML
 async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElementID, tableBodyElementID, 
-    columnListDisplay, deleteUrl, columnListDelete) {
+    columnListDisplay, deleteUrl, columnListDelete, updateUrl, columnListUpdate) {
     
     //show loader until a response is fetched
-    showElement(loaderElementID)
+    showElement(loaderElementID);
 
     // Fetch response
     const response = await fetch(fetchUrl);
@@ -56,9 +69,10 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
     data.forEach((object, i) => {
 
         // filter only object with keys defined in columnListDisplay to show in final table
+        let objectDisplay = object
        if (columnListDisplay && columnListDisplay.length > 0) {
             objectDisplay = Object.fromEntries(Object.entries(object).filter( ([key,val]) => columnListDisplay.includes(key)))
-       }
+       };
 
         //for 1st row object, generate table header HTML
         if (i === 0) {
@@ -70,47 +84,57 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
                 ${th}
                 <th>Action</th>
             `;
-        }
+        };
 
 
         //Generate strings for table body HTML
-        let dataAttrList = [];
-        let valueList = [];
+        let td = '';
         Object.keys(objectDisplay).forEach(key => {
-
-            dataAttr = `data-${key.replace('_','-')} = "${objectDisplay[key]}"`;
-            dataAttrList.push(dataAttr);
-
-            value = `<td>${objectDisplay[key]}</td>`;
-            valueList.push(value);
+            td += `<td>${objectDisplay[key]}</td>`;
         });
-        trAttr = dataAttrList.join(' ');
-        td = valueList.join('');
 
         
-        // filter only object with keys defined in columnListAction to do update or delete
+        // filter only object with keys defined in columnListDelete
+        let objectDelete = object
         if (columnListDelete && columnListDelete.length > 0) {
             objectDelete = Object.fromEntries(Object.entries(object).filter( ([key,val]) => columnListDelete.includes(key)))
         }
 
-        //for each key in object, create one line of <input> form
-        let formInputList = [];
-        Object.keys(objectDelete).forEach(key => {
-            formInput = `<input type="hidden" id="${key}" name="${key}" value="${objectDelete[key]}"></input>`
-            formInputList.push(formInput)
-        });
-        inputs = formInputList.join('');       
+        //for each key in objectDelete, create one line of <input> form
+        let inputFormDelete = '';
+        Object.keys(objectDelete).forEach((key, i) => {
+            inputFormDelete += `<input type="hidden" id="${key}" name="${key}" value="${objectDelete[key]}"></input>`
+        });  
+        
+        
+        // filter only object with keys defined in columnListUpdate
+        let objectUpdate = object
+        if (columnListUpdate && columnListUpdate.length > 0) {
+            objectUpdate = Object.fromEntries(Object.entries(object).filter( ([key,val]) => columnListUpdate.includes(key)))
+        }
+
+        //for each key in objectUpdate, create one line of <input> form
+        let inputFormUpdate = '';
+        Object.keys(objectUpdate).forEach((key, i) => {
+            inputFormUpdate += `<input type="hidden" id="${key}" name="${key}" value="${objectUpdate[key]}"></input>`
+        });  
 
 
         //Finalizing tableHTML
         tBodyHTML += `
-            <tr ${trAttr}>
+            <tr>
                 ${td}
                 <td>
+                    <form action="${updateUrl}" method="post">
+                        ${inputFormUpdate}
+                        ${inputFormDelete}
+                        <input type="submit" value="edit" onclick="return confirm('edit?')">
+                    </form>
                     <form action="${deleteUrl}" method="post">
-                        ${inputs}
+                        ${inputFormDelete}
                         <input type="submit" value="delete" onclick="return confirm('Are you sure to delete ?')">
                     </form>
+
                 </td>
             </tr>
         `;
@@ -121,6 +145,19 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
     // Update table innerHTML
     document.getElementById(tableHeadElementID).innerHTML = tHeadHTML;
     document.getElementById(tableBodyElementID).innerHTML = tBodyHTML;
+
+
+
+    // update
+    let table = document.getElementById('table-body')
+
+    for (let i = 0; i < table.rows.length; i++) {
+        console.log(table.rows[i])
+        table.rows[i].onclick = function () {
+            rIndex = this.rowIndex;
+            console.log(rIndex)
+        }
+    }
 };
 
 
@@ -145,4 +182,37 @@ function setInsertHTML(targetElementID, insertUrl, objectInsert) {
 
     hideElement(targetElementID);
 
-}
+};
+
+
+
+//on click button-submit-insert
+// document.addEventListener('submit', function(e) {
+//     if (!e.target.matches('.submit-insert')) {
+//         return;
+//     }
+
+//     const data = new FormData(e.target);
+//     const value = Object.fromEntries(data.entries());
+//     console.log(value)
+    
+// })
+
+//on click button-delete-row
+// document.addEventListener('click', function(e) {
+//     if (!e.target.matches('.button-delete-row')) {
+//         return;
+//     }
+
+//     const id = e.target.getAttribute('data-member-id');
+//     const id_json = {"id": id};
+//     console.log(id)
+
+//     const isDelete = confirm(`Are you sure to delete "${id}" ?`);
+
+//     if (isDelete) {
+//         postResponse(deleteMemberUrl, new URLSearchParams(id_json))
+//         this.location.reload()
+//     }
+    
+// })

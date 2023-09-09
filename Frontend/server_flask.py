@@ -1,6 +1,5 @@
 from flask import (Flask, request, jsonify, render_template)
 from datetime import datetime
-import json
 from Backend.db_connection import connect_mysql
 from Backend import dao_member
 from Backend import dao_member_level
