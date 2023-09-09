@@ -97,9 +97,10 @@ def generate_update_statement(table: str, data_dict: dict, uuid_col_list: list, 
     5) Define condition key and condition value to which row to be updated
 
     6)Return update statement like :
-    UPDATE INTO schema.table (person_uuid, name, gender_uuid, height)
-    VALUES (UUID_TO_BIN(%s), %s, UUID_TO_BIN(%s), %s);
-    ('554260d7887657ac9233f300c1c2cda3', 'jiajunlee', 'ab0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2', 170)
+        UPDATE schema.table
+        SET gender_uuid = UUID_TO_BIN(%s), height = %s
+        WHERE person_id = 'bc0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2';
+         ('ab0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2', 170)
     """
 
     # Hash password string into UUID form
@@ -108,8 +109,8 @@ def generate_update_statement(table: str, data_dict: dict, uuid_col_list: list, 
             data_dict[password_col] = generate_uuid_from_string(data_dict[password_col])
 
     # Split data_dict by key list and value list
-    column_list = list(data_dict.keys())  # ['name', 'gender_uuid', 'height']
-    value_list = list(data_dict.values())  # ['jiajunlee', 'bc0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2', 170]
+    column_list = list(data_dict.keys())  # ['gender_uuid', 'height']
+    value_list = list(data_dict.values())  # ['bc0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2', 170]
 
     # set_string = SET gender_uuid = UUID_TO_BIN(%s), height = %s
     set_string_list = []
@@ -121,7 +122,7 @@ def generate_update_statement(table: str, data_dict: dict, uuid_col_list: list, 
         set_string_list.append(f"{column} = %s")
     set_string = ', '.join(set_string_list)
 
-    # data_tuple = ('jiajunlee','ab0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2',170)
+    # data_tuple = ('ab0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2',170)
     data_tuple = tuple(value_list)
 
     # Generating query statement
