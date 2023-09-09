@@ -86,6 +86,54 @@ def generate_insert_statement(table: str, data_dict: dict, uuid_col_list: list, 
     return query, data_tuple, uuid
 
 
+def generate_update_statement(table: str, data_dict: dict, uuid_col_list: list, password_col_list: list,
+                              condition_key: str, condition_value: str):
+    """
+    Usage:
+    1) Define table to be updated
+    2) data_dict keys should match the table column name, define what to be updated
+    3) All uuid-type column MUST be defined in uuid_col_list for UUID_TO_BIN conversion!
+    4) Define all password column in password_col_list for string to UUID
+    5) Define condition key and condition value to which row to be updated
+
+    6)Return update statement like :
+    UPDATE INTO schema.table (person_uuid, name, gender_uuid, height)
+    VALUES (UUID_TO_BIN(%s), %s, UUID_TO_BIN(%s), %s);
+    ('554260d7887657ac9233f300c1c2cda3', 'jiajunlee', 'ab0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2', 170)
+    """
+
+    # Hash password string into UUID form
+    if len(password_col_list) > 0:
+        for password_col in password_col_list:
+            data_dict[password_col] = generate_uuid_from_string(data_dict[password_col])
+
+    # Split data_dict by key list and value list
+    column_list = list(data_dict.keys())  # ['name', 'gender_uuid', 'height']
+    value_list = list(data_dict.values())  # ['jiajunlee', 'bc0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2', 170]
+
+    # set_string = SET gender_uuid = UUID_TO_BIN(%s), height = %s
+    set_string_list = []
+    for column in column_list:
+        if len(uuid_col_list) > 0:
+            if column in uuid_col_list:
+                set_string_list.append(f"{column} = UUID_TO_BIN(%s)")
+                continue
+        set_string_list.append(f"{column} = %s")
+    set_string = ', '.join(set_string_list)
+
+    # data_tuple = ('jiajunlee','ab0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2',170)
+    data_tuple = tuple(value_list)
+
+    # Generating query statement
+    query = f"""
+        UPDATE {table}
+        SET {set_string}
+        WHERE {condition_key} = '{condition_value}';
+    """
+
+    return query, data_tuple
+
+
 def select_query(cursor, query):
     """Parse cursor, query and return select query response"""
     cursor.execute(query)
@@ -105,7 +153,7 @@ def select_query(cursor, query):
 if __name__ == "__main__":
     connection = connect_mysql()
 
-    Query, Data, UUID = generate_insert_statement(
+    insertQuery, insertData, insertUUID = generate_insert_statement(
         'schema.table',
         {
             "name": "jiajunlee",
@@ -117,7 +165,20 @@ if __name__ == "__main__":
         ['name', 'gender_uuid'],
         []
     )
-    print(Query, Data, UUID)
+    print(insertQuery, insertData, insertUUID)
+
+    updateQuery, updateData = generate_update_statement(
+        'schema.table',
+        {
+            "gender_uuid": "ab0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2",
+            "height": 170
+        },
+        ['person_uuid', 'gender_uuid'],
+        [],
+        'person_id',
+        'bc0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2'
+    )
+    print(updateQuery, updateData)
 
     if connection is not None:
         connection.close()
