@@ -1,5 +1,5 @@
 // Calling Fetch utils function
-//arguments: fetchUrl, loaderElementID, tableHeadElementID, tableBodyElementID, columnListDisplay, actionUrl, columnListAction
+//arguments: fetchUrl, loaderElementID, tableHeadElementID, tableBodyElementID, columnListDisplay, deleteUrl, columnListDelete, columnListUpdate
 fetchResponseToTableBody(
     getMemberUrl, 
     'table-loader', 
@@ -7,10 +7,12 @@ fetchResponseToTableBody(
     'table-body',
     ['member_id', 'member_name', 'member_bonus_points'], 
     deleteMemberUrl,
-    ['member_id']
+    ['member_id'],
+    ['member_id', 'member_name']
 );
 
 // set Insert HTML
+// arguments: action, targetElementID, targetUrl, object, confirmMsg
 setActionHTML(
     'insert',
     'insert', 
@@ -24,6 +26,7 @@ setActionHTML(
 );
 
 // set update HTML
+// arguments: action, targetElementID, targetUrl, object, confirmMsg
 setActionHTML(
     'update',
     'update', 

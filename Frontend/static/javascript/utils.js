@@ -42,7 +42,7 @@ function showElement(elementID) {
 
 // Defining async function to fetch response function, hide loader once loaded, update table HTML
 async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElementID, tableBodyElementID, 
-    columnListDisplay, deleteUrl, columnListDelete) {
+    columnListDisplay, deleteUrl, columnListDelete, columnListUpdate) {
     
     //show loader until a response is fetched
     showElement(loaderElementID);
@@ -109,19 +109,33 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
         Object.keys(objectDelete).forEach(key => {
             inputFormDelete += `<input type="hidden" id="${key}" name="${key}" value="${objectDelete[key]}" required>`
         });  
-        
+
+
+        // filter only object with keys defined in columnListUpdate
+        let objectUpdate = object
+        if (columnListUpdate && columnListUpdate.length > 0) {
+            objectUpdate = Object.fromEntries(Object.entries(object).filter( ([key,val]) => columnListUpdate.includes(key)))
+        }
+
+        //for each key in objectUpdate, editButtonOnClick replace placeholder & value text
+        // document.getElementById('update-member_id').innerHTML = 'member_id: ' + document.getElementById('row-${i}').getAttribute('data-member_id');
+        let editButtonOnClick = '';
+        Object.keys(objectUpdate).forEach(key => {
+            editButtonOnClick += `
+                document.getElementById('update-${key}-placeholder').value = document.getElementById('row-${i}').getAttribute('data-${key}');
+            `;
+        });  
 
         //Finalizing tableHTML
         tBodyHTML += `
             <tr ${trAttr}>
                 ${td}
                 <td>
-                    <button onclick="console.log(document.getElementById('row-${i}').getAttribute('data-member_id'))">edit</button>
+                    <button onclick="${editButtonOnClick}">edit</button>
                     <form action="${deleteUrl}" method="post">
                         ${inputFormDelete}
                         <input type="submit" value="delete" onclick="return confirm('Are you sure to delete this item?')">
                     </form>
-
                 </td>
             </tr>
         `;
@@ -133,27 +147,6 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
     document.getElementById(tableHeadElementID).innerHTML = tHeadHTML;
     document.getElementById(tableBodyElementID).innerHTML = tBodyHTML;
 
-
-
-
-    // update
-//     let table = document.getElementById('table-body'), rIndex
-
-//     for (let i = 0; i < table.rows.length; i++) {
-//         table.rows[i].onclick = function () {
-//             rIndex = this.rowIndex;
-//             console.log(rIndex)
-//             console.log(table.rows[i])
-
-//             console.log(this.cells[0].innerHTML)
-//             console.log(this.cells[1].innerHTML)
-//             console.log(this.cells[2].innerHTML)
-
-//             // console.log(document.getElementById('update-member_name').value)
-//             // document.getElementById('update-member_name').value = this.cells[1].innerHTML;
-//             // table.rows[rIndex].cells[0].innerHTML = 'hi';
-//         }
-//     }
 };
 
 
@@ -167,7 +160,7 @@ function setActionHTML(action, targetElementID, targetUrl, object, confirmMsg) {
         if (object[key] === 'readonly') {
             HTML += `
                 <label id="${action}-${key}" name="${key}">${key}: </label>
-                <input type="text" id="${action}-${key}" name="${key}" required readonly><br>
+                <input type="text" id="${action}-${key}-placeholder" name="${key}" placeholder="placeholder" required readonly><br>
             `;
         }
 
