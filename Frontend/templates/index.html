@@ -40,9 +40,19 @@
 
         <main>
             <h2>Main Page</h2>
-            <button onclick="document.location='order-item.html'">
+            <button class="button-add" onclick="{{ url_for('order_item') }}">
                 New Order
             </button>
+
+            <div id="insert">
+            </div>
+
+            <button class="button-update">
+                Update Order
+            </button>
+
+            <div id="update">
+            </div>
 
             <div role="status" id="table-loader">
                 <span>Loading Orders...</span>

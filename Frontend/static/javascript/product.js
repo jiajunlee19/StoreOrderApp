@@ -1,7 +1,74 @@
-// Calling Fetch utils function, arguments: url, loaderElementID, columnList, tableHeadElementID, tableBodyElementID
+// Calling Fetch utils function
+//arguments: fetchUrl, loaderElementID, tableHeadElementID, tableBodyElementID, columnListDisplay, deleteUrl, columnListDelete, columnListUpdate
 fetchResponseToTableBody(
     getProductUrl, 
-    'table-product-loader', 
+    'table-loader', 
+    'table-head', 
+    'table-body',
     ['product_name', 'uom_name', 'product_unit_price', 'product_bonus_points'], 
-    'table-product-head', 'table-product-body'
-    );
+    deleteProductUrl,
+    ['product_id'],
+    ['product_id', 'product_name', 'uom_id']
+);
+
+// set Insert HTML
+// arguments: action, targetElementID, targetUrl, object, confirmMsg
+setActionHTML(
+    'insert',
+    'insert', 
+    insertProductUrl, 
+    {
+        'product_name': 'text',
+        'uom_id': 'text',
+        'product_unit_price': 'number',
+        'product_bonus_points': 'number'
+    },
+    'Are you sure to add this new item ?'
+);
+
+// set update HTML
+// arguments: action, targetElementID, targetUrl, object, confirmMsg
+setActionHTML(
+    'update',
+    'update', 
+    updateProductUrl, 
+    {   
+        'product_id': 'readonly',
+        'product_name': 'readonly',
+        'uom_id': 'readonly',
+        'product_unit_price': 'number',
+        'product_bonus_points': 'number'
+    },
+    'Are you sure to update the selected item ?'
+);
+
+
+// on click Events
+document.addEventListener('click', function(e) {
+
+    //button-add
+    if (e.target.matches('.button-add')) {
+
+        if (document.getElementById('insert').style.display === 'none') {
+            showElement('insert');
+        }
+        else {
+            hideElement('insert');
+        }
+    }
+
+    //button-update
+    else if (e.target.matches('.button-update')) {
+
+        if (document.getElementById('update').style.display === 'none') {
+            showElement('update');
+        }
+        else {
+            hideElement('update');
+        }
+    }
+
+    else {
+        return;
+    } 
+});

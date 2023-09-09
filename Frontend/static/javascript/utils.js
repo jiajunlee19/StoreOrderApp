@@ -6,17 +6,28 @@ const getMemberLevelUrl = `${mainUrl}/getMemberLevel`;
 const getUOMUrl = `${mainUrl}/getUOM`;
 const getProductUrl = `${mainUrl}/getProduct`;
 const getOrderUrl = `${mainUrl}/getOrder`;
+const getOrderItemUrl = `${mainUrl}/getOrderItem`;
 
 const insertMemberUrl =`${mainUrl}/insertMember`;
+const insertMemberLevelUrl =`${mainUrl}/insertMemberLevel`;
+const insertUOMUrl =`${mainUrl}/insertUOM`;
+const insertProductUrl =`${mainUrl}/insertProduct`;
+const insertOrderUrl =`${mainUrl}/insertOrder`;
+const insertOrderItemUrl =`${mainUrl}/insertOrderItem`;
 
 const deleteMemberUrl =`${mainUrl}/deleteMember`;
+const deleteMemberLevelUrl =`${mainUrl}/deleteMemberLevel`;
+const deleteUOMUrl =`${mainUrl}/deleteUOMr`;
+const deleteProductUrl =`${mainUrl}/deleteProduct`;
+const deleteOrderUrl =`${mainUrl}/deleteOrder`;
+const deleteOrderItemUrl =`${mainUrl}/deleteOrderItem`;
 
 const updateMemberUrl =`${mainUrl}/updateMember`;
-
-const productSaveApiUrl = 'http://127.0.0.1:5000/insertProduct';
-const productDeleteApiUrl = 'http://127.0.0.1:5000/deleteProduct';
-
-const orderSaveApiUrl = 'http://127.0.0.1:5000/insertOrder';
+const updateMemberLevelUrl =`${mainUrl}/updateMemberLevel`;
+const updateUOMUrl =`${mainUrl}/updateUOM`;
+const updateProductUrl =`${mainUrl}/updateProduct`;
+const updateOrderUrl =`${mainUrl}/updateOrder`;
+const updateOrderItemUrl =`${mainUrl}/updateOrderItem`;
 
 
 //Function to convert HTML collection into Array

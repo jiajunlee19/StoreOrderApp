@@ -1,14 +1,14 @@
 // Calling Fetch utils function
 //arguments: fetchUrl, loaderElementID, tableHeadElementID, tableBodyElementID, columnListDisplay, deleteUrl, columnListDelete, columnListUpdate
 fetchResponseToTableBody(
-    getOrderUrl, 
+    getMemberLevelUrl, 
     'table-loader', 
     'table-head', 
     'table-body',
-    ['order_id', 'member_id', 'order_created_date'], 
-    deleteOrderUrl,
-    ['order_id'],
-    ['order_id', 'member_id']
+    ['member_level_id', 'member_level', 'bonus_points_min', 'bonus_points_max'], 
+    deleteMemberLevelUrl,
+    ['member_level_id'],
+    ['member_level_id', 'member_level_name']
 );
 
 // set Insert HTML
@@ -16,9 +16,11 @@ fetchResponseToTableBody(
 setActionHTML(
     'insert',
     'insert', 
-    insertOrderUrl, 
+    insertMemberLevelUrl, 
     {
-        'member_id': 'text'
+        'member_level': 'text',
+        'bonus_points_min': 'number',
+        'bonus_points_max': 'number'
     },
     'Are you sure to add this new item ?'
 );
@@ -28,10 +30,12 @@ setActionHTML(
 setActionHTML(
     'update',
     'update', 
-    updateOrderUrl, 
+    updateMemberUrl, 
     {   
-        'order_id': 'readonly',
-        'member_id': 'text',
+        'member_level_id': 'readonly',
+        'member_level': 'readonly',
+        'bonus_points_min': 'number',
+        'bonus_points_max': 'number'
     },
     'Are you sure to update the selected item ?'
 );

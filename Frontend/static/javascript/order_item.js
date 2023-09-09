@@ -1,14 +1,14 @@
 // Calling Fetch utils function
 //arguments: fetchUrl, loaderElementID, tableHeadElementID, tableBodyElementID, columnListDisplay, deleteUrl, columnListDelete, columnListUpdate
 fetchResponseToTableBody(
-    getOrderUrl, 
+    getOrderItemUrl, 
     'table-loader', 
     'table-head', 
     'table-body',
-    ['order_id', 'member_id', 'order_created_date'], 
-    deleteOrderUrl,
-    ['order_id'],
-    ['order_id', 'member_id']
+    ['member_id', 'member_name', 'member_bonus_points'], 
+    deleteOrderItemUrl,
+    ['member_id'],
+    ['member_id', 'member_name']
 );
 
 // set Insert HTML
@@ -16,9 +16,11 @@ fetchResponseToTableBody(
 setActionHTML(
     'insert',
     'insert', 
-    insertOrderUrl, 
+    insertOrderItemUrl, 
     {
-        'member_id': 'text'
+        'member_name': 'text',
+        'member_password': 'password',
+        'member_bonus_points': 'number'
     },
     'Are you sure to add this new item ?'
 );
@@ -28,10 +30,12 @@ setActionHTML(
 setActionHTML(
     'update',
     'update', 
-    updateOrderUrl, 
+    updateOrderItemUrl, 
     {   
-        'order_id': 'readonly',
-        'member_id': 'text',
+        'member_id': 'readonly',
+        'member_name': 'readonly',
+        'member_password': 'password',
+        'member_bonus_points': 'number'
     },
     'Are you sure to update the selected item ?'
 );
