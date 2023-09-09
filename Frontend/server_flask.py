@@ -114,15 +114,19 @@ def insert_member():
         return render_template('member.html')
 
 
-@app.route('/insertProduct', methods=['POST'])
-def insert_product():
-    request_payload = json.loads(request.form['data'])
-    product_id = dao_product.insert_product(connection, request_payload)
-    response = jsonify({
-        'product_id': product_id
-    })
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
+@app.route('/updateMember', methods=['POST'])
+def update_member():
+    data_dict = {
+        "member_password": request.form['member_password'],
+        "member_bonus_points": request.form['member_bonus_points'],
+        "member_updated_date": datetime.now()
+    }
+    member_id = request.form['member_id']
+    response = dao_member.update_member(connection, data_dict, member_id)
+    if 'error' in response:
+        return response
+    else:
+        return render_template('member.html')
 
 
 @app.route('/deleteMember', methods=['POST'])
@@ -131,16 +135,6 @@ def delete_member():
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return render_template('member.html')
-
-
-@app.route('/deleteProduct', methods=['POST'])
-def delete_product():
-    return_id = dao_product.delete_product(connection, request.form['product_id'])
-    response = jsonify({
-        'product_id': return_id
-    })
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
 
 
 if __name__ == "__main__":
