@@ -130,7 +130,7 @@ def generate_update_statement(table: str, data_dict: dict, uuid_col_list: list, 
     query = f"""
         UPDATE {table}
         SET {set_string}
-        WHERE {condition_key} = '{uuid}';
+        WHERE UUID_TO_BIN({condition_key}) = '{uuid}';
     """
 
     return query, data_tuple, uuid
