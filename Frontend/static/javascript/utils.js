@@ -42,7 +42,7 @@ function showElement(elementID) {
 
 // Defining async function to fetch response function, hide loader once loaded, update table HTML
 async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElementID, tableBodyElementID, 
-    columnListDisplay, deleteUrl, columnListDelete, updateUrl, columnListUpdate) {
+    columnListDisplay, deleteUrl, columnListDelete) {
     
     //show loader until a response is fetched
     showElement(loaderElementID);
@@ -103,36 +103,18 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
         //for each key in objectDelete, create one line of <input> form
         let inputFormDelete = '';
         Object.keys(objectDelete).forEach((key, i) => {
-            inputFormDelete += `<input type="hidden" id="${key}" name="${key}" value="${objectDelete[key]}"></input>`
+            inputFormDelete += `<input type="hidden" id="${key}" name="${key}" value="${objectDelete[key]}" required>`
         });  
         
-        
-        // filter only object with keys defined in columnListUpdate
-        let objectUpdate = object
-        if (columnListUpdate && columnListUpdate.length > 0) {
-            objectUpdate = Object.fromEntries(Object.entries(object).filter( ([key,val]) => columnListUpdate.includes(key)))
-        }
-
-        //for each key in objectUpdate, create one line of <input> form
-        let inputFormUpdate = '';
-        Object.keys(objectUpdate).forEach((key, i) => {
-            inputFormUpdate += `<input type="hidden" id="${key}" name="${key}" value="${objectUpdate[key]}"></input>`
-        });  
-
 
         //Finalizing tableHTML
         tBodyHTML += `
             <tr>
                 ${td}
                 <td>
-                    <form action="${updateUrl}" method="post">
-                        ${inputFormUpdate}
-                        ${inputFormDelete}
-                        <input type="submit" value="edit" onclick="return confirm('edit?')">
-                    </form>
                     <form action="${deleteUrl}" method="post">
                         ${inputFormDelete}
-                        <input type="submit" value="delete" onclick="return confirm('Are you sure to delete ?')">
+                        <input type="submit" value="delete" onclick="return confirm('Are you sure to delete this item?')">
                     </form>
 
                 </td>
@@ -156,33 +138,52 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
         table.rows[i].onclick = function () {
             rIndex = this.rowIndex;
             console.log(rIndex)
+
+            document.getElementById('a').value = this.cells[0].innerHTML;
+
+            table.rows[rIndex].cells[0].innerHTML = document.getElementById('a').value;
         }
     }
 };
 
 
 
-// Function to set insertHTML
-function setInsertHTML(targetElementID, insertUrl, objectInsert) {
+// Function to set action HTML (insert/update)
+function setActionHTML(action, targetElementID, targetUrl, object, confirmMsg) {
 
-    let insertHTML = ''
-    Object.keys(objectInsert).forEach(key => {
-        insertHTML += `
-            <label id="${key}" name="${key}">${key}: </label>
-            <input type="${objectInsert[key]}" id="${key}" name="${key}" required><br>
-        `
+    let HTML = '';
+    Object.keys(object).forEach(key => {
+        
+        if (object[key] === 'hidden') {
+            HTML += `
+                <input type="${object[key]}" id="${action}-${key}" name="${key}" required>
+            `;
+        }
+
+        else {
+            HTML += `
+                <label id="${action}-${key}" name="${key}">${key}: </label>
+                <input type="${object[key]}" id="${action}-${key}" name="${key}" required><br>
+            `;
+        }
     });
 
+    onClickSubmitMsg = ''
+    if (confirmMsg && confirmMsg.length > 0) {
+        onClickSubmitMsg = `onclick="return confirm('${confirmMsg}')"`
+    }
+
     document.getElementById(`${targetElementID}`).innerHTML = `
-        <form action="${insertUrl}" method="post">
-            ${insertHTML}
-            <br><input class="submit-insert" type="submit" value="submit" onclick="return confirm('Are you sure to add ?')">
+        <form action="${targetUrl}" method="post">
+            ${HTML}
+            <input type="submit" value="submit & ${action}" ${onClickSubmitMsg}>
         </form>
-    `
+    `;
 
     hideElement(targetElementID);
 
 };
+
 
 
 

@@ -5,36 +5,64 @@ fetchResponseToTableBody(
     'table-loader', 
     'table-head', 
     'table-body',
-    ['member_id', 'member_name', 'member_password', 'member_bonus_points'], 
+    ['member_id', 'member_name', 'member_bonus_points'], 
     deleteMemberUrl,
-    ['member_id'],
-    updateMemberUrl,
-    ['member_password', 'member_bonus_points']
+    ['member_id']
 );
 
 // set Insert HTML
-setInsertHTML(
+setActionHTML(
+    'insert',
     'insert', 
     insertMemberUrl, 
     {
         'member_name': 'text',
         'member_password': 'password',
         'member_bonus_points': 'number'
-    }
+    },
+    'Are you sure to add this new item ?'
 );
 
-// on click button-add, toggle insert element
+// set update HTML
+setActionHTML(
+    'update',
+    'update', 
+    updateMemberUrl, 
+    {   
+        'member_id': 'hidden',
+        'member_password': 'password',
+        'member_bonus_points': 'number'
+    },
+    'Are you sure to update the selected item ?'
+);
+
+
+// on click Events
 document.addEventListener('click', function(e) {
-    if (!e.target.matches('.button-add')) {
-        return;
+
+    //button-add
+    if (e.target.matches('.button-add')) {
+
+        if (document.getElementById('insert').style.display === 'none') {
+            showElement('insert');
+        }
+        else {
+            hideElement('insert');
+        }
     }
 
-    if (document.getElementById('insert').style.display === 'none') {
-        showElement('insert');
+    //button-update
+    else if (e.target.matches('.button-update')) {
+
+        if (document.getElementById('update').style.display === 'none') {
+            showElement('update');
+        }
+        else {
+            hideElement('update');
+        }
     }
 
     else {
-        hideElement('insert');
-    }
-    
+        return;
+    } 
 });
