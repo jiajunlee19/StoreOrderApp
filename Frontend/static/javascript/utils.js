@@ -88,10 +88,14 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
 
 
         //Generate strings for table body HTML
+        let trAttrList = [];
+        let trAttr = '';
         let td = '';
         Object.keys(objectDisplay).forEach(key => {
+            trAttrList.push(`data-${key} = "${objectDisplay[key]}"`)
             td += `<td>${objectDisplay[key]}</td>`;
         });
+        trAttr = `id="row-${i}" ${trAttrList.join(' ')}`
 
         
         // filter only object with keys defined in columnListDelete
@@ -102,16 +106,17 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
 
         //for each key in objectDelete, create one line of <input> form
         let inputFormDelete = '';
-        Object.keys(objectDelete).forEach((key, i) => {
+        Object.keys(objectDelete).forEach(key => {
             inputFormDelete += `<input type="hidden" id="${key}" name="${key}" value="${objectDelete[key]}" required>`
         });  
         
 
         //Finalizing tableHTML
         tBodyHTML += `
-            <tr>
+            <tr ${trAttr}>
                 ${td}
                 <td>
+                    <button onclick="console.log(document.getElementById('row-${i}').getAttribute('data-member_id'))">edit</button>
                     <form action="${deleteUrl}" method="post">
                         ${inputFormDelete}
                         <input type="submit" value="delete" onclick="return confirm('Are you sure to delete this item?')">
@@ -130,20 +135,25 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
 
 
 
+
     // update
-    let table = document.getElementById('table-body')
+//     let table = document.getElementById('table-body'), rIndex
 
-    for (let i = 0; i < table.rows.length; i++) {
-        console.log(table.rows[i])
-        table.rows[i].onclick = function () {
-            rIndex = this.rowIndex;
-            console.log(rIndex)
+//     for (let i = 0; i < table.rows.length; i++) {
+//         table.rows[i].onclick = function () {
+//             rIndex = this.rowIndex;
+//             console.log(rIndex)
+//             console.log(table.rows[i])
 
-            document.getElementById('a').value = this.cells[0].innerHTML;
+//             console.log(this.cells[0].innerHTML)
+//             console.log(this.cells[1].innerHTML)
+//             console.log(this.cells[2].innerHTML)
 
-            table.rows[rIndex].cells[0].innerHTML = document.getElementById('a').value;
-        }
-    }
+//             // console.log(document.getElementById('update-member_name').value)
+//             // document.getElementById('update-member_name').value = this.cells[1].innerHTML;
+//             // table.rows[rIndex].cells[0].innerHTML = 'hi';
+//         }
+//     }
 };
 
 
@@ -154,9 +164,10 @@ function setActionHTML(action, targetElementID, targetUrl, object, confirmMsg) {
     let HTML = '';
     Object.keys(object).forEach(key => {
         
-        if (object[key] === 'hidden') {
+        if (object[key] === 'readonly') {
             HTML += `
-                <input type="${object[key]}" id="${action}-${key}" name="${key}" required>
+                <label id="${action}-${key}" name="${key}">${key}: </label>
+                <input type="text" id="${action}-${key}" name="${key}" required readonly><br>
             `;
         }
 

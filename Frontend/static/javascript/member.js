@@ -29,7 +29,8 @@ setActionHTML(
     'update', 
     updateMemberUrl, 
     {   
-        'member_id': 'hidden',
+        'member_id': 'readonly',
+        'member_name': 'readonly',
         'member_password': 'password',
         'member_bonus_points': 'number'
     },
