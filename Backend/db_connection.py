@@ -111,6 +111,7 @@ def generate_update_statement(table: str, data_dict: dict, uuid_col_list: list, 
     # Split data_dict by key list and value list
     column_list = list(data_dict.keys())  # ['gender_uuid', 'height']
     value_list = list(data_dict.values())  # ['bc0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2', 170]
+    uuid = condition_value
 
     # set_string = SET gender_uuid = UUID_TO_BIN(%s), height = %s
     set_string_list = []
@@ -129,10 +130,10 @@ def generate_update_statement(table: str, data_dict: dict, uuid_col_list: list, 
     query = f"""
         UPDATE {table}
         SET {set_string}
-        WHERE {condition_key} = '{condition_value}';
+        WHERE {condition_key} = '{uuid}';
     """
 
-    return query, data_tuple
+    return query, data_tuple, uuid
 
 
 def select_query(cursor, query):
@@ -168,7 +169,7 @@ if __name__ == "__main__":
     )
     print(insertQuery, insertData, insertUUID)
 
-    updateQuery, updateData = generate_update_statement(
+    updateQuery, updateData, updateUUID = generate_update_statement(
         'schema.table',
         {
             "gender_uuid": "ab0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2",
@@ -179,7 +180,7 @@ if __name__ == "__main__":
         'person_id',
         'bc0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2'
     )
-    print(updateQuery, updateData)
+    print(updateQuery, updateData, updateUUID)
 
     if connection is not None:
         connection.close()
