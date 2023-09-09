@@ -1,5 +1,5 @@
 import mysql.connector
-from Backend.db_connection import connect_mysql, generate_insert_statement, select_query
+from Backend.db_connection import connect_mysql,  select_query, generate_insert_statement, generate_update_statement
 from datetime import datetime
 
 
@@ -37,6 +37,29 @@ def insert_member(conn, data_dict):
         return f"Integrity error: {str(ie)}"
 
 
+def update_member(conn, data_dict, member_id):
+
+    query, data, uuid = generate_update_statement(
+        'store.member',
+        data_dict,
+        ['member_password'],
+        ['member_password'],
+        'member_id',
+        member_id
+    )
+
+    # print(f"query = {query}, data = {data}, uuid = {uuid}")
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query, data)
+        conn.commit()
+        return f"{uuid} is updated"
+
+    except mysql.connector.IntegrityError as ie:
+        return f"Integrity error: {str(ie)}"
+
+
 def delete_member(conn, member_id):
 
     query = f"DELETE FROM store.member where BIN_TO_UUID(member_id) = '{member_id}';"
@@ -62,6 +85,17 @@ if __name__ == '__main__':
                 "member_updated_date": datetime.now()
             }
         )
+    )
+
+    print(
+        update_member(connection,
+                      {
+                          "member_password": "abc123",
+                          "member_bonus_points": 0,
+                          "member_updated_date": datetime.now()
+                      },
+                      'bc0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2'
+                      )
     )
 
     # print(
