@@ -54,7 +54,7 @@ function showElement(elementID) {
 // Defining async function to fetch response only
 async function fetchResponse(fetchUrl) {
     const response = await fetch(fetchUrl);
-    let data = response.json();
+    let data = await response.json();
 
     if (response) {
         return data;

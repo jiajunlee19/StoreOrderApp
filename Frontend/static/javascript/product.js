@@ -44,8 +44,32 @@ setActionHTML(
 );
 
 
-let d = fetchResponse(getUOMUrl)
-console.log(d)
+//fetch UOM data
+async function fetchUOM(fetchUrl, columnListFilter, primaryKey, columnListDropDown) {
+    uomData = await fetchResponse(fetchUrl);
+
+    //
+    let uomDataFull = {};
+    uomData.forEach(object => {
+        
+        let objectFilter = object
+        if (columnListFilter && columnListFilter.length > 0) {
+            objectFilter = Object.fromEntries(Object.entries(object).filter( ([key,val]) => columnListFilter.includes(key)))
+        };
+
+        uomDataFull[objectFilter[primaryKey]] = objectFilter
+
+        console.log(uomDataFull);
+
+    });
+
+};
+fetchUOM(
+    getUOMUrl, 
+    ['uom_id', 'uom_name'], 
+    'uom_id',
+    ['uom_name']
+);
 
 //change select dropdown options
 document.getElementById('insert-uom_id-select').innerHTML = `
