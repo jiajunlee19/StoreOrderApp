@@ -113,6 +113,84 @@ def insert_member():
         return render_template('member.html')
 
 
+@app.route('/insertMemberLevel', methods=['POST'])
+def insert_member_level():
+    data_dict = {
+        "member_level": request.form['member_level'],
+        "bonus_points_min": request.form['bonus_points_min'],
+        "bonus_points_max": request.form['bonus_points_max'],
+        "member_level_created_date": datetime.now(),
+        "member_level_updated_date": datetime.now()
+    }
+    response = dao_member_level.insert_member_level(connection, data_dict)
+    if 'error' in response:
+        return response
+    else:
+        return render_template('member_level.html')
+
+
+@app.route('/insertUOM', methods=['POST'])
+def insert_uom():
+    data_dict = {
+        "uom_name": request.form['uom_name'],
+        "uom_created_date": datetime.now(),
+        "uom_updated_date": datetime.now()
+    }
+    response = dao_uom.insert_uom(connection, data_dict)
+    if 'error' in response:
+        return response
+    else:
+        return render_template('uom.html')
+
+
+@app.route('/insertProduct', methods=['POST'])
+def insert_product():
+    data_dict = {
+        "product_name": request.form['product_name'],
+        "uom_id": request.form['uom_id'],
+        "product_unit_price": request.form['product_unit_price'],
+        "product_bonus_points": request.form['product_bonus_points'],
+        "product_created_date": datetime.now(),
+        "product_updated_date": datetime.now()
+    }
+    response = dao_product.insert_product(connection, data_dict)
+    if 'error' in response:
+        return response
+    else:
+        return render_template('product.html')
+
+
+@app.route('/insertOrder', methods=['POST'])
+def insert_order():
+    data_dict = {
+        "member_id": request.form['member_id'],
+        "order_created_date": datetime.now(),
+        "order_updated_date": datetime.now()
+    }
+    response = dao_order.insert_order(connection, data_dict)
+    if 'error' in response:
+        return response
+    else:
+        return render_template('index.html')
+
+
+@app.route('/insertOrderItem', methods=['POST'])
+def insert_order_item():
+    data_dict = {
+        "order_id": request.form['order_id'],
+        "product_id": request.form['product_id'],
+        "uom_id": request.form['uom_id'],
+        "order_item_quantity": request.form['order_item_quantity'],
+        "order_item_created_date": datetime.now(),
+        "order_item_updated_date": datetime.now()
+    }
+    response = dao_order_item.insert_order_item(connection, data_dict)
+    if 'error' in response:
+        return response
+    else:
+        return render_template('order_item.html')
+
+
 @app.route('/updateMember', methods=['POST'])
 def update_member():
     data_dict = {
@@ -134,6 +212,46 @@ def delete_member():
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return render_template('member.html')
+
+
+@app.route('/deleteMemberLevel', methods=['POST'])
+def delete_member_level():
+    response = dao_member_level.delete_member_level(connection, request.form['member_level_id'])
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return render_template('member_level.html')
+
+
+@app.route('/deleteUOM', methods=['POST'])
+def delete_uom():
+    response = dao_uom.delete_uom(connection, request.form['uom_id'])
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return render_template('uom.html')
+
+
+@app.route('/deleteProduct', methods=['POST'])
+def delete_product():
+    response = dao_product.delete_product(connection, request.form['product_id'])
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return render_template('product.html')
+
+
+@app.route('/deleteOrder', methods=['POST'])
+def delete_order():
+    response = dao_order.delete_order(connection, request.form['order_id'])
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return render_template('index.html')
+
+
+@app.route('/deleteOrderItem', methods=['POST'])
+def delete_order_item():
+    response = dao_order_item.delete_order_item(connection, request.form['order_item_id'])
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return render_template('order_item.html')
 
 
 if __name__ == "__main__":
