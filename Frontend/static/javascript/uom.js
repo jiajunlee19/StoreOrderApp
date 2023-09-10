@@ -5,7 +5,7 @@ fetchResponseToTableBody(
     'table-loader', 
     'table-head', 
     'table-body',
-    ['uom_id', 'uom_name'], 
+    ['uom_name'], 
     deleteUOMUrl,
     ['uom_id'],
     ['uom_id', 'uom_name']
@@ -28,9 +28,9 @@ setActionHTML(
 setActionHTML(
     'update',
     'update', 
-    updateMemberUrl, 
+    updateMemberUrl,
     {   
-        'uom_id': 'readonly',
+        'uom_id': 'hidden',
         'uom_name': 'readonly'
     },
     'Are you sure to update the selected item ?'

@@ -44,9 +44,9 @@ def order():
     return render_template('order.html')
 
 
-@app.route('/orderItem', methods=['GET'])
-def order_item():
-    return render_template('order_item.html')
+@app.route('/orderItem/<order_id>', methods=['GET'])
+def order_item(order_id):
+    return render_template('order_item.html', order_id=order_id)
 
 
 @app.route('/getMember', methods=['GET'])

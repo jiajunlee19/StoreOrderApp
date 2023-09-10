@@ -5,7 +5,7 @@ fetchResponseToTableBody(
     'table-loader', 
     'table-head', 
     'table-body',
-    ['member_level_id', 'member_level', 'bonus_points_min', 'bonus_points_max'], 
+    ['member_level', 'bonus_points_min', 'bonus_points_max'], 
     deleteMemberLevelUrl,
     ['member_level_id'],
     ['member_level_id', 'member_level']
@@ -32,7 +32,7 @@ setActionHTML(
     'update', 
     updateMemberLevelUrl, 
     {   
-        'member_level_id': 'readonly',
+        'member_level_id': 'hidden',
         'member_level': 'readonly',
         'bonus_points_min': 'number',
         'bonus_points_max': 'number'

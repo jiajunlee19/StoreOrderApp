@@ -1,7 +1,7 @@
 // Calling Fetch utils function
 //arguments: fetchUrl, loaderElementID, tableHeadElementID, tableBodyElementID, columnListDisplay, deleteUrl, columnListDelete, columnListUpdate
 fetchResponseToTableBody(
-    getOrderItemUrl, 
+    getOrderItemUrl + "/" + clickedOrder, 
     'table-loader', 
     'table-head', 
     'table-body',
@@ -40,6 +40,10 @@ setActionHTML(
     'Are you sure to update the selected item ?'
 );
 
+//Change h2 into order_id
+document.querySelector('.h2').innerHTML = `
+    Viewing Order: ${clickedOrder}
+`;
 
 // on click Events
 document.addEventListener('click', function(e) {

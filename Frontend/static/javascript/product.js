@@ -8,7 +8,7 @@ fetchResponseToTableBody(
     ['product_name', 'uom_name', 'product_unit_price', 'product_bonus_points'], 
     deleteProductUrl,
     ['product_id'],
-    ['product_id', 'product_name', 'uom_id']
+    ['product_id', 'product_name', 'uom_id', 'uom_name']
 );
 
 // set Insert HTML
@@ -33,9 +33,10 @@ setActionHTML(
     'update', 
     updateProductUrl, 
     {   
-        'product_id': 'readonly',
+        'product_id': 'hidden',
         'product_name': 'readonly',
-        'uom_id': 'readonly',
+        'uom_id': 'hidden',
+        'uom_name': 'readonly',
         'product_unit_price': 'number',
         'product_bonus_points': 'number'
     },

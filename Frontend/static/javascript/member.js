@@ -5,7 +5,7 @@ fetchResponseToTableBody(
     'table-loader', 
     'table-head', 
     'table-body',
-    ['member_id', 'member_name', 'member_bonus_points'], 
+    ['member_name', 'member_bonus_points'], 
     deleteMemberUrl,
     ['member_id'],
     ['member_id', 'member_name']
@@ -32,7 +32,7 @@ setActionHTML(
     'update', 
     updateMemberUrl, 
     {   
-        'member_id': 'readonly',
+        'member_id': 'hidden',
         'member_name': 'readonly',
         'member_password': 'password',
         'member_bonus_points': 'number'

@@ -6,7 +6,7 @@ const getMemberLevelUrl = `${mainUrl}/getMemberLevel`;
 const getUOMUrl = `${mainUrl}/getUOM`;
 const getProductUrl = `${mainUrl}/getProduct`;
 const getOrderUrl = `${mainUrl}/getOrder`;
-let getOrderItemUrl = `${mainUrl}/getOrderItem`;
+const getOrderItemUrl = `${mainUrl}/getOrderItem`;
 
 const insertMemberUrl =`${mainUrl}/insertMember`;
 const insertMemberLevelUrl =`${mainUrl}/insertMemberLevel`;
@@ -152,8 +152,8 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
             tdView = `
                 <td>
                     <button class="button-view-order" onclick="
-                        getOrderItemUrl = document.getElementById('row-${i}').getAttribute('data-order_id');
-                        console.log(getOrderItemUrl);
+                        clickedOrder = document.getElementById('row-${i}').getAttribute('data-order_id');
+                        location = '${mainUrl}/orderItem/' + clickedOrder;
                     ">
                         view
                     </button>
@@ -199,6 +199,19 @@ function setActionHTML(action, targetElementID, targetUrl, object, confirmMsg) {
                 <input type="text" id="${action}-${key}-placeholder" name="${key}" placeholder="placeholder" required readonly><br>
             `;
         }
+
+        else if (object[key] === 'hidden') {
+            HTML += `
+                <input type="hidden" id="${action}-${key}-placeholder" name="${key}" placeholder="placeholder" required readonly><br>
+            `;
+        }  
+        
+        else if (object[key] === 'number') {
+            HTML += `
+                <label id="${action}-${key}" name="${key}">${key}: </label>
+                <input type="${object[key]}" step=any id="${action}-${key}" name="${key}" required><br>
+            `;
+        }        
 
         else {
             HTML += `
