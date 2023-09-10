@@ -40,9 +40,11 @@
 
         <main>
             <h2>Main Page</h2>
-            <button class="button-add" onclick="{{ url_for('order_item') }}">
-                New Order
-            </button>
+            <a href="{{ url_for('order_item') }}">
+                <button class="button-add">
+                    New Order
+                </button>
+            </a>
 
             <div id="insert">
             </div>
@@ -60,24 +62,10 @@
 
             <table border="1">
                 <thead id="table-head">
-                    <th>order_created_date</th>
-                    <th>order_id</th>
-                    <th>member_id</th>
-                    <th>Action</th>
+
                 </thead>
                 <tbody id="table-body">
-                    <tr>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
+
                 </tbody>
             </table>
         </main>
