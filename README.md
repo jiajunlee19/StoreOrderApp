@@ -1,8 +1,9 @@
 # Store Order App
+
 In this project, we will build a 3-tier store order management application.
 1. Database: mysql
-2. Backend: Python and Flask
-3. Front end: UI is written in HTML/CSS/Javascript/Bootstrap
+2. Backend: Python Flask
+3. Front end: UI is written in HTML/CSS/Javascript
 
 
 
@@ -16,36 +17,39 @@ Download mysql for windows: https://dev.mysql.com/downloads/installer/
 
 # Let's start working on the first part -> Database: mysql
 
-Step 1: Design database structure in https://erd.dbdesigner.net/
+I have generated a CREATE_TABLES.sql script, you can run it in mySQL Workbench and it will create everything required for this project automatically.
+<Ref script here>
 
-This step allows you to configure/design your database structure (setting primary keys/foreign key relation, etc.) before creating it in mysql database environment.
-
-To reduce data redundancy, your database structure should at least meeting third normalization level - 3NF (Ref: https://www.guru99.com/database-normalization.html)
-1NF: Each table cell should contain a single value, and each record needs to be unique
-2NF: Each table should have a Single Column Primary Key and contains only columns related to the primary key
-3NF: Each column of a table should be transitive functional independent to other columns in the table
+// or you can create the tables manually thru mySQL workbench.
+Key points to note when designing database structure:
+	To reduce data redundancy, your database structure should at least meeting third normalization level - 3NF (Ref: https://www.guru99.com/database-normalization.html)
+		1NF: Each table cell should contain a single value, and each record needs to be unique
+		2NF: Each table should have a Single Column Primary Key and contains only columns related to the primary key
+		3NF: Each column of a table should be transitive functional independent to other columns in the table
 
 <db_design image>
 
-Step 2: Export design into mysql script and run it in mysql workbench. // or you can create the tables manually thru mySQL workbench.
-<Ref script here>
-
-Step 3: Insert some relevant records to the table
-<table snapshots>
 
 
 # Once database is ready, let's jump into backend design using Python
 
-Step 1: Connect to your mySQL using python mysql-connector
+1) Connect to your mySQL using python mysql-connector
 db_connection.py
 
-Step 2: For each base table, write queries (select,insert,delete) into backend database-object script
+2) For each base table, write queries (select,insert,delete) into backend database-object (dao) scripts
 products_dao.py, orders_dao.py, uom_dao.py....
 
 These dao are used to interact with front end UI later.
 
+3) Generate a Flask server, connecting backend to frontend
+flask-server.py
+
 Step 3: Create views that is needed to show in UI
 ?
+
+
+# Design UI
+
 
 
 

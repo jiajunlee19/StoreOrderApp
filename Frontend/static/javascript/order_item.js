@@ -5,10 +5,10 @@ fetchResponseToTableBody(
     'table-loader', 
     'table-head', 
     'table-body',
-    ['member_id', 'member_name', 'member_bonus_points'], 
+    ['order_item_id', 'product_id', 'uom_id', 'order_item_quantity'], 
     deleteOrderItemUrl,
-    ['member_id'],
-    ['member_id', 'member_name']
+    ['order_item_id'],
+    ['order_item_quantity']
 );
 
 // set Insert HTML
@@ -18,9 +18,9 @@ setActionHTML(
     'insert', 
     insertOrderItemUrl, 
     {
-        'member_name': 'text',
-        'member_password': 'password',
-        'member_bonus_points': 'number'
+        'product_id': 'text',
+        'uom_id': 'text',
+        'order_item_quantity': 'number'
     },
     'Are you sure to add this new item ?'
 );
@@ -32,10 +32,10 @@ setActionHTML(
     'update', 
     updateOrderItemUrl, 
     {   
-        'member_id': 'readonly',
-        'member_name': 'readonly',
-        'member_password': 'password',
-        'member_bonus_points': 'number'
+        'order_item_id': 'readonly',
+        'product_id': 'readonly',
+        'uom_id': 'readonly',
+        'order_item_quantity': 'number'
     },
     'Are you sure to update the selected item ?'
 );
@@ -64,7 +64,7 @@ document.addEventListener('click', function(e) {
         else {
             hideElement('update');
         }
-    }
+    }  
 
     else {
         return;

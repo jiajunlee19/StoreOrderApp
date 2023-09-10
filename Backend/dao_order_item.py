@@ -3,14 +3,15 @@ from Backend.db_connection import connect_mysql,  select_query, generate_insert_
 from datetime import datetime
 
 
-def get_order_item(conn):
+def get_order_item(conn, data):
     query = """
         select BIN_TO_UUID(order_item_id) as order_item_id, BIN_TO_UUID(order_id) as order_id, 
         BIN_TO_UUID(product_id) as product_id, order_item_quantity 
         from store.order_item
+        where order_item_id = UUID_TO_BIN(%s)
     """
     cursor = conn.cursor()
-    response = select_query(cursor, query)
+    response = select_query(cursor, query, data)
     return response
 
 

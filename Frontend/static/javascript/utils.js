@@ -6,7 +6,7 @@ const getMemberLevelUrl = `${mainUrl}/getMemberLevel`;
 const getUOMUrl = `${mainUrl}/getUOM`;
 const getProductUrl = `${mainUrl}/getProduct`;
 const getOrderUrl = `${mainUrl}/getOrder`;
-const getOrderItemUrl = `${mainUrl}/getOrderItem`;
+let getOrderItemUrl = `${mainUrl}/getOrderItem`;
 
 const insertMemberUrl =`${mainUrl}/insertMember`;
 const insertMemberLevelUrl =`${mainUrl}/insertMemberLevel`;
@@ -53,7 +53,7 @@ function showElement(elementID) {
 
 // Defining async function to fetch response function, hide loader once loaded, update table HTML
 async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElementID, tableBodyElementID, 
-    columnListDisplay, deleteUrl, columnListDelete, columnListUpdate) {
+    columnListDisplay, deleteUrl, columnListDelete, columnListUpdate, addViewButtonFlag = false) {
     
     //show loader until a response is fetched
     showElement(loaderElementID);
@@ -74,6 +74,10 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
     //Initialize table HTML
     let tHeadHTML = '';
     let tBodyHTML = '';
+
+    if (addViewButtonFlag) {
+        tHeadHTML = '<th>Order Detail</th>';
+    }
 
 
     //for each row object, generate table body HTML
@@ -99,7 +103,7 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
             Object.keys(objectDisplay).forEach(key => {
                 th += `<th>${key}</th>`;
             });
-            tHeadHTML = `
+            tHeadHTML += `
                 ${th}
                 <th>Action</th>
             `;
@@ -139,11 +143,28 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
             editButtonOnClick += `
                 document.getElementById('update-${key}-placeholder').value = document.getElementById('row-${i}').getAttribute('data-${key}');
             `;
-        });  
+        }); 
+        
+
+        //show view button in column1
+        tdView = '';
+        if (addViewButtonFlag) {
+            tdView = `
+                <td>
+                    <button class="button-view-order" onclick="
+                        getOrderItemUrl = document.getElementById('row-${i}').getAttribute('data-order_id');
+                        console.log(getOrderItemUrl);
+                    ">
+                        view
+                    </button>
+                </td>
+            `
+        };
 
         //Finalizing tableHTML
         tBodyHTML += `
             <tr ${trAttr}>
+                ${tdView}
                 ${td}
                 <td>
                     <button onclick="${editButtonOnClick}">edit</button>
@@ -206,17 +227,6 @@ function setActionHTML(action, targetElementID, targetUrl, object, confirmMsg) {
 
 
 
-//on click button-submit-insert
-// document.addEventListener('submit', function(e) {
-//     if (!e.target.matches('.submit-insert')) {
-//         return;
-//     }
-
-//     const data = new FormData(e.target);
-//     const value = Object.fromEntries(data.entries());
-//     console.log(value)
-    
-// })
 
 //on click button-delete-row
 // document.addEventListener('click', function(e) {

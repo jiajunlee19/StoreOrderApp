@@ -5,7 +5,7 @@ from datetime import datetime
 
 def get_order(conn):
     query = """
-        select BIN_TO_UUID(order_id) as order_id, order_created_date, BIN_TO_UUID(member_id) as member_id 
+        select BIN_TO_UUID(order_id) as order_id, BIN_TO_UUID(member_id) as member_id , order_created_date 
         from store.order
     """
     cursor = conn.cursor()

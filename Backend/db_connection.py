@@ -136,9 +136,9 @@ def generate_update_statement(table: str, data_dict: dict, uuid_col_list: list, 
     return query, data_tuple, uuid
 
 
-def select_query(cursor, query):
+def select_query(cursor, query, data=None):
     """Parse cursor, query and return select query response"""
-    cursor.execute(query)
+    cursor.execute(query, data)
     fetched = cursor.fetchall()
     columns = cursor.description
     response = []

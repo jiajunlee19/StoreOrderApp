@@ -8,7 +8,8 @@ fetchResponseToTableBody(
     ['order_id', 'member_id', 'order_created_date'], 
     deleteOrderUrl,
     ['order_id'],
-    ['order_id', 'member_id']
+    ['order_id', 'member_id'],
+    true
 );
 
 // set Insert HTML
@@ -31,7 +32,7 @@ setActionHTML(
     updateOrderUrl, 
     {   
         'order_id': 'readonly',
-        'member_id': 'text',
+        'member_id': 'readonly',
     },
     'Are you sure to update the selected item ?'
 );

@@ -44,7 +44,7 @@ def order():
     return render_template('order.html')
 
 
-@app.route('/order_item', methods=['GET'])
+@app.route('/orderItem', methods=['GET'])
 def order_item():
     return render_template('order_item.html')
 
@@ -89,9 +89,10 @@ def get_order():
     return response
 
 
-@app.route('/getOrderItem', methods=['GET'])
-def get_order_item():
-    response = dao_order_item.get_order_item(connection)
+@app.route('/getOrderItem/<order_id>', methods=['GET'])
+def get_order_item(order_id):
+    data = tuple([order_id])
+    response = dao_order_item.get_order_item(connection, data)
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
