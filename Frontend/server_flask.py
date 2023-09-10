@@ -206,6 +206,76 @@ def update_member():
         return render_template('member.html')
 
 
+@app.route('/updateMemberLevel', methods=['POST'])
+def update_member_level():
+    data_dict = {
+        "bonus_points_min": request.form['bonus_points_min'],
+        "bonus_points_min_max": request.form['bonus_points_min'],
+        "member_level_updated_date": datetime.now()
+    }
+    member_level_id = request.form['member_level_id']
+    response = dao_member_level.update_member_level(connection, data_dict, member_level_id)
+    if 'error' in response:
+        return response
+    else:
+        return render_template('member_level.html')
+
+
+@app.route('/updateUOM', methods=['POST'])
+def update_uom():
+    data_dict = {
+        "uom_updated_date": datetime.now()
+    }
+    uom_id = request.form['uom_id']
+    response = dao_uom.update_uom(connection, data_dict, uom_id)
+    if 'error' in response:
+        return response
+    else:
+        return render_template('uom.html')
+
+
+@app.route('/updateProduct', methods=['POST'])
+def update_product():
+    data_dict = {
+        "product_unit_price": request.form['product_unit_price'],
+        "product_bonus_points": request.form['product_bonus_points'],
+        "product_updated_date": datetime.now()
+    }
+    product_id = request.form['product_id']
+    response = dao_product.update_product(connection, data_dict, product_id)
+    if 'error' in response:
+        return response
+    else:
+        return render_template('product.html')
+
+
+@app.route('/updateOrder', methods=['POST'])
+def update_order():
+    data_dict = {
+        "order_updated_date": datetime.now()
+    }
+    order_id = request.form['order_id']
+    response = dao_order.update_order(connection, data_dict, order_id)
+    if 'error' in response:
+        return response
+    else:
+        return render_template('index.html')
+
+
+@app.route('/updateOrderItem', methods=['POST'])
+def update_order_item():
+    data_dict = {
+        "order_item_quantity": request.form['order_item_quantity'],
+        "order_item_updated_date": datetime.now()
+    }
+    order_item_id = request.form['order_item_id']
+    response = dao_order_item.update_order_item(connection, data_dict, order_item_id)
+    if 'error' in response:
+        return response
+    else:
+        return render_template('order_item.html')
+
+
 @app.route('/deleteMember', methods=['POST'])
 def delete_member():
     response = dao_member.delete_member(connection, request.form['member_id'])
