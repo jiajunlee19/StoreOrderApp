@@ -202,7 +202,7 @@ function setActionHTML(action, targetElementID, targetUrl, object, confirmMsg) {
 
         else if (object[key] === 'hidden') {
             HTML += `
-                <input type="hidden" id="${action}-${key}-placeholder" name="${key}" placeholder="placeholder" required readonly><br>
+                <input type="hidden" id="${action}-${key}-placeholder" name="${key}" placeholder="placeholder" required readonly>
             `;
         }  
         
