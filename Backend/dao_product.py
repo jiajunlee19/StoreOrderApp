@@ -1,5 +1,5 @@
 import mysql.connector
-from Backend.db_connection import connect_mysql, generate_insert_statement, select_query
+from Backend.db_connection import connect_mysql,  select_query, generate_insert_statement, generate_update_statement
 from datetime import datetime
 
 
@@ -39,6 +39,29 @@ def insert_product(conn, data_dict):
         return f"Integrity error: {str(ie)}"
 
 
+def update_product(conn, data_dict, product_id):
+
+    query, data, uuid = generate_update_statement(
+        'store.product',
+        data_dict,
+        [],
+        [],
+        'product_id',
+        product_id
+    )
+
+    # print(f"query = {query}, data = {data}, uuid = {uuid}")
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query, data)
+        conn.commit()
+        return f"{uuid} is updated"
+
+    except mysql.connector.IntegrityError as ie:
+        return f"Integrity error: {str(ie)}"
+
+
 def delete_product(conn, product_id):
 
     query = f"DELETE FROM store.product where BIN_TO_UUID(product_id) = '{product_id}';"
@@ -67,6 +90,17 @@ if __name__ == '__main__':
                 "product_updated_date": datetime.now()
             }
         )
+    )
+
+    print(
+        update_product(connection,
+                      {
+                          "product_unit_price": 0,
+                          "product_bonus_points": 0.015,
+                          "product_updated_date": datetime.now()
+                      },
+                      'c05f2fa9-a4bb-5e4d-abe0-bc76ef063a6f'
+                      )
     )
 
     # print(

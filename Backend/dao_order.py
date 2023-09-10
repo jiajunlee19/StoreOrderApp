@@ -1,5 +1,5 @@
 import mysql.connector
-from Backend.db_connection import connect_mysql, generate_insert_statement, select_query
+from Backend.db_connection import connect_mysql, select_query, generate_insert_statement, generate_update_statement
 from datetime import datetime
 
 
@@ -14,7 +14,6 @@ def get_order(conn):
 
 
 def insert_order(conn, data_dict):
-
     query, data, uuid = generate_insert_statement(
         'store.order',
         data_dict,
@@ -36,8 +35,29 @@ def insert_order(conn, data_dict):
         return f"Integrity error: {str(ie)}"
 
 
-def delete_order(conn, order_id):
+def update_order(conn, data_dict, order_id):
+    query, data, uuid = generate_update_statement(
+        'store.order',
+        data_dict,
+        [],
+        [],
+        'order_id',
+        order_id
+    )
 
+    # print(f"query = {query}, data = {data}, uuid = {uuid}")
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query, data)
+        conn.commit()
+        return f"{uuid} is updated"
+
+    except mysql.connector.IntegrityError as ie:
+        return f"Integrity error: {str(ie)}"
+
+
+def delete_order(conn, order_id):
     query = f"DELETE FROM store.order where BIN_TO_UUID(order_id) = '{order_id}';"
     cursor = conn.cursor()
     cursor.execute(query)
@@ -54,7 +74,6 @@ if __name__ == '__main__':
         insert_order(
             connection,
             {
-                "order_id": "9a6029f1-ce7e-5a33-bd12-06860c3efbfd",
                 "member_id": "bc0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2",
                 "order_created_date": datetime.now(),
                 "order_updated_date": datetime.now()
@@ -62,10 +81,19 @@ if __name__ == '__main__':
         )
     )
 
+    print(
+        update_order(connection,
+                     {
+                         "order_updated_date": datetime.now()
+                     },
+                     'ec82671a-5cdd-535d-bf95-7d3ec98c1918'
+                     )
+    )
+
     # print(
     #     delete_order(
     #         connection,
-    #         '9a6029f1-ce7e-5a33-bd12-06860c3efbfd'
+    #         'ec82671a-5cdd-535d-bf95-7d3ec98c1918'
     #     )
     # )
 
