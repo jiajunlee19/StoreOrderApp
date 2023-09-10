@@ -19,7 +19,7 @@ setActionHTML(
     insertProductUrl, 
     {
         'product_name': 'text',
-        'uom_id': 'text',
+        'uom_id': 'select',
         'product_unit_price': 'number',
         'product_bonus_points': 'number'
     },
@@ -42,6 +42,15 @@ setActionHTML(
     },
     'Are you sure to update the selected item ?'
 );
+
+
+let d = fetchResponse(getUOMUrl)
+console.log(d)
+
+//change select dropdown options
+document.getElementById('insert-uom_id-select').innerHTML = `
+    <option value="placeholders">placeholders</option>
+`;
 
 
 // on click Events

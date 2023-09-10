@@ -51,7 +51,17 @@ function showElement(elementID) {
 };
 
 
-// Defining async function to fetch response function, hide loader once loaded, update table HTML
+// Defining async function to fetch response only
+async function fetchResponse(fetchUrl) {
+    const response = await fetch(fetchUrl);
+    let data = response.json();
+
+    if (response) {
+        return data;
+    }
+};
+
+// Defining async function to fetch response, hide loader once loaded, update table HTML
 async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElementID, tableBodyElementID, 
     columnListDisplay, deleteUrl, columnListDelete, columnListUpdate, addViewButtonFlag = false) {
     
@@ -183,6 +193,8 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
     document.getElementById(tableHeadElementID).innerHTML = tHeadHTML;
     document.getElementById(tableBodyElementID).innerHTML = tBodyHTML;
 
+    return data
+
 };
 
 
@@ -212,6 +224,15 @@ function setActionHTML(action, targetElementID, targetUrl, object, confirmMsg) {
                 <input type="${object[key]}" step=any id="${action}-${key}" name="${key}" required><br>
             `;
         }        
+
+        else if (object[key] === 'select') {
+            HTML += `
+                <label id="${action}-${key}" name="${key}">${key}: </label>
+                <select id="${action}-${key}-select" name="${key}" required>
+                    <option value="placeholder">placeholder</option>
+                </select><br>
+            `;
+        }       
 
         else {
             HTML += `

@@ -14,18 +14,18 @@ def connect_mysql():
     global __conn
 
     if __conn is not None:
+        __conn.close()
+        print("Connection closed")
+
+    try:
+        print("Connecting to mysql...")
+        __conn = mysql.connector.connect(host=myHost, database=myDatabase, user=myUsername, password=myPassword)
+        print(f"Connected to host={myHost}, database={myDatabase}")
         return __conn
 
-    else:
-        try:
-            print("Connecting to mysql...")
-            __conn = mysql.connector.connect(host=myHost, database=myDatabase, user=myUsername, password=myPassword)
-            print(f"Connected to host={myHost}, database={myDatabase}")
-            return __conn
-
-        except Exception as e:
-            print(f"Failed to connect: {str(e)}")
-            return None
+    except Exception as e:
+        print(f"Failed to connect: {str(e)}")
+        return None
 
 
 def generate_insert_statement(table: str, data_dict: dict, uuid_col_list: list, generate_uuid_col_name: str,
