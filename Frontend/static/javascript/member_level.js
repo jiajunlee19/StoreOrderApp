@@ -8,7 +8,7 @@ fetchResponseToTableBody(
     ['member_level_id', 'member_level', 'bonus_points_min', 'bonus_points_max'], 
     deleteMemberLevelUrl,
     ['member_level_id'],
-    ['member_level_id', 'member_level_name']
+    ['member_level_id', 'member_level']
 );
 
 // set Insert HTML
@@ -30,7 +30,7 @@ setActionHTML(
 setActionHTML(
     'update',
     'update', 
-    updateMemberUrl, 
+    updateMemberLevelUrl, 
     {   
         'member_level_id': 'readonly',
         'member_level': 'readonly',

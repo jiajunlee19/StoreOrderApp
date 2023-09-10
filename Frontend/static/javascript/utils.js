@@ -79,6 +79,14 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
     //for each row object, generate table body HTML
     data.forEach((object, i) => {
 
+        //Generate data attribute for table body HTML
+        let trAttrList = [];
+        let trAttr = '';
+        Object.keys(object).forEach(key => {
+            trAttrList.push(`data-${key} = "${object[key]}"`)
+        });
+        trAttr = `id="row-${i}" ${trAttrList.join(' ')}`
+
         // filter only object with keys defined in columnListDisplay to show in final table
         let objectDisplay = object
        if (columnListDisplay && columnListDisplay.length > 0) {
@@ -99,14 +107,10 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
 
 
         //Generate strings for table body HTML
-        let trAttrList = [];
-        let trAttr = '';
         let td = '';
         Object.keys(objectDisplay).forEach(key => {
-            trAttrList.push(`data-${key} = "${objectDisplay[key]}"`)
             td += `<td>${objectDisplay[key]}</td>`;
         });
-        trAttr = `id="row-${i}" ${trAttrList.join(' ')}`
 
         
         // filter only object with keys defined in columnListDelete
