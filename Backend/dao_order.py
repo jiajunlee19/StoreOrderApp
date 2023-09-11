@@ -5,8 +5,10 @@ from datetime import datetime
 
 def get_order(conn):
     query = """
-        select BIN_TO_UUID(order_id) as order_id, BIN_TO_UUID(member_id) as member_id , order_created_date 
-        from store.order
+        select BIN_TO_UUID(o.order_id) as order_id, o.order_created_date, 
+        BIN_TO_UUID(o.member_id) as member_id, m.member_name
+        from store.order o
+        inner join store.member m on o.member_id = m.member_id
     """
     cursor = conn.cursor()
     response = select_query(cursor, query)

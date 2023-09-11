@@ -44,7 +44,8 @@ setActionHTML(
     'Are you sure to update the selected item ?'
 );
 
-
+// set dropdown options
+//arguments: fetchUrl, columnListFilter, action, primaryKey, objectDropDown
 fetchResponseToDropDown(
     getUOMUrl, 
     ['uom_id', 'uom_name'], 

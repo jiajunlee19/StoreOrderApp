@@ -5,10 +5,10 @@ fetchResponseToTableBody(
     'table-loader', 
     'table-head', 
     'table-body',
-    ['order_id', 'member_id', 'order_created_date'], 
+    ['order_id', 'order_created_date', 'member_name'], 
     deleteOrderUrl,
     ['order_id'],
-    ['order_id', 'member_id'],
+    ['order_id', 'member_id','member_name'],
     true
 );
 
@@ -19,7 +19,8 @@ setActionHTML(
     'insert', 
     insertOrderUrl, 
     {
-        'member_id': 'text'
+        'member_id': 'hidden',
+        'member_name': 'select'
     },
     'Are you sure to add this new item ?'
 );
@@ -29,12 +30,24 @@ setActionHTML(
 setActionHTML(
     'update',
     'update', 
-    updateOrderUrl, 
+    updateOrderUrl,
     {   
         'order_id': 'readonly',
-        'member_id': 'readonly',
+        'member_id': 'hidden',
+        'member_name': 'readonly'
     },
     'Are you sure to update the selected item ?'
+);
+
+
+// set dropdown options
+//arguments: fetchUrl, columnListFilter, action, primaryKey, objectDropDown
+fetchResponseToDropDown(
+    getMemberUrl, 
+    ['member_id', 'member_name'], 
+    'insert',
+    'member_name',
+    {'member_name': 'member_id'}
 );
 
 
