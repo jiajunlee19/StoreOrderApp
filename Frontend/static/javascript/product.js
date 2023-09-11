@@ -45,46 +45,10 @@ setActionHTML(
 );
 
 
-//Function to fetch data and assign dropdown options with relevant UID pair
-async function fetchUOM(fetchUrl, columnListFilter, primaryKey, objectDropDown) {
-    data = await fetchResponse(fetchUrl);
-
-    //
-    let dataFull = {};
-    let optionDropDown = {};
-    data.forEach(object => {
-        
-        let objectFilter = object
-        if (columnListFilter && columnListFilter.length > 0) {
-            objectFilter = Object.fromEntries(Object.entries(object).filter( ([key,val]) => columnListFilter.includes(key)))
-        };
-
-        dataFull[objectFilter[primaryKey]] = objectFilter
-
-        Object.keys(objectDropDown).forEach(e => {
-            optionDropDown[e] += `<option value="${objectFilter[e]}">${objectFilter[e]}</option>`
-        });
-
-    });
-
-    //for each drop-down column, change select dropdown options accordinly based on optionDropDown dict
-    Object.keys(optionDropDown).forEach(key => {
-
-        document.getElementById(`insert-${key}-select`).innerHTML = optionDropDown[key];
-
-        document.getElementById(`insert-${key}-select`).addEventListener('change', function() {
-
-            document.getElementById(`insert-${objectDropDown[key]}-placeholder`).value = dataFull[this.value][objectDropDown[key]]
-
-        });
-
-    }); 
-
-};
-
-fetchUOM(
+fetchResponseToDropDown(
     getUOMUrl, 
     ['uom_id', 'uom_name'], 
+    'insert',
     'uom_name',
     {'uom_name': 'uom_id'}
 );
