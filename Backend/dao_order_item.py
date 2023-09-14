@@ -1,14 +1,17 @@
 import mysql.connector
-from Backend.db_connection import connect_mysql,  select_query, generate_insert_statement, generate_update_statement
+from Backend.db_connection import connect_mysql, select_query, generate_insert_statement, generate_update_statement
 from datetime import datetime
 
 
 def get_order_item(conn, data):
     query = """
-        select BIN_TO_UUID(order_item_id) as order_item_id, BIN_TO_UUID(order_id) as order_id, 
-        BIN_TO_UUID(product_id) as product_id, order_item_quantity 
-        from store.order_item
-        where order_item_id = UUID_TO_BIN(%s)
+        select BIN_TO_UUID(i.order_item_id) as order_item_id, BIN_TO_UUID(i.order_id) as order_id, 
+        BIN_TO_UUID(i.product_id) as product_id, p.product_name, p.uom_id, u.uom_name,
+        p.product_unit_price, p.product_bonus_points, i.order_item_quantity 
+        from store.order_item i
+        inner join store.product p on i.product_id = p.product_id
+        inner join store.uom u on p.uom_id = u.uom_id
+        where i.order_id = UUID_TO_BIN(%s)
     """
     cursor = conn.cursor()
     response = select_query(cursor, query, data)
@@ -16,7 +19,6 @@ def get_order_item(conn, data):
 
 
 def insert_order_item(conn, data_dict):
-
     query, data, uuid = generate_insert_statement(
         'store.order_item',
         data_dict,
@@ -39,7 +41,6 @@ def insert_order_item(conn, data_dict):
 
 
 def update_order_item(conn, data_dict, order_item_id):
-
     query, data, uuid = generate_update_statement(
         'store.order_item',
         data_dict,
@@ -62,7 +63,6 @@ def update_order_item(conn, data_dict, order_item_id):
 
 
 def delete_order_item(conn, order_item_id):
-
     query = f"DELETE FROM store.order_item where BIN_TO_UUID(order_item_id) = '{order_item_id}';"
     cursor = conn.cursor()
     cursor.execute(query)
@@ -73,7 +73,7 @@ def delete_order_item(conn, order_item_id):
 
 if __name__ == '__main__':
     connection = connect_mysql()
-    print(get_order_item(connection))
+    print(get_order_item(connection, tuple(['78ab317d-fc55-5c0d-a904-c79a48c07413'])))
 
     print(
         insert_order_item(
@@ -90,12 +90,12 @@ if __name__ == '__main__':
 
     print(
         update_order_item(connection,
-                      {
-                          "order_item_quantity": 10,
-                          "order_item_updated_date": datetime.now()
-                      },
-                      'bc0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2'
-                      )
+                          {
+                              "order_item_quantity": 10,
+                              "order_item_updated_date": datetime.now()
+                          },
+                          'bc0c0bbc-fcbe-5d85-8a5c-5f603aecbeb2'
+                          )
     )
 
     # print(
