@@ -1,10 +1,9 @@
 import mysql.connector
-from Backend.db_connection import connect_mysql,  select_query, generate_insert_statement, generate_update_statement
+from Backend.db_connection import connect_mysql, select_query, generate_insert_statement, generate_update_statement
 from datetime import datetime
 
 
 def get_product(conn):
-
     query = ("""
         select BIN_TO_UUID(p.product_id) as product_id, p.product_name, 
         BIN_TO_UUID(p.uom_id) as uom_id, u.uom_name, p.product_unit_price,p.product_bonus_points 
@@ -16,8 +15,20 @@ def get_product(conn):
     return response
 
 
-def insert_product(conn, data_dict):
+def get_uom_by_product_name(conn, data):
+    query = ("""
+        select BIN_TO_UUID(p.product_id) as product_id, p.product_name, 
+        BIN_TO_UUID(p.uom_id) as uom_id, u.uom_name, p.product_unit_price,p.product_bonus_points 
+        from store.product p 
+        inner join store.uom u on p.uom_id=u.uom_id
+        where p.product_name = %s;
+    """)
+    cursor = conn.cursor()
+    response = select_query(cursor, query, data)
+    return response
 
+
+def insert_product(conn, data_dict):
     query, data, uuid = generate_insert_statement(
         'store.product',
         data_dict,
@@ -40,7 +51,6 @@ def insert_product(conn, data_dict):
 
 
 def update_product(conn, data_dict, product_id):
-
     query, data, uuid = generate_update_statement(
         'store.product',
         data_dict,
@@ -63,7 +73,6 @@ def update_product(conn, data_dict, product_id):
 
 
 def delete_product(conn, product_id):
-
     query = f"DELETE FROM store.product where BIN_TO_UUID(product_id) = '{product_id}';"
     cursor = conn.cursor()
     cursor.execute(query)
@@ -94,13 +103,13 @@ if __name__ == '__main__':
 
     print(
         update_product(connection,
-                      {
-                          "product_unit_price": 0,
-                          "product_bonus_points": 0.015,
-                          "product_updated_date": datetime.now()
-                      },
-                      'c05f2fa9-a4bb-5e4d-abe0-bc76ef063a6f'
-                      )
+                       {
+                           "product_unit_price": 0,
+                           "product_bonus_points": 0.015,
+                           "product_updated_date": datetime.now()
+                       },
+                       'c05f2fa9-a4bb-5e4d-abe0-bc76ef063a6f'
+                       )
     )
 
     # print(

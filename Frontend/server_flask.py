@@ -120,6 +120,19 @@ def get_order_item(order_id):
     return response
 
 
+@app.route('/getUOMbyProductName/<product_name>', methods=['GET'])
+def get_uom_by_product_name(product_name):
+    connection = connect_mysql()
+    data = tuple([product_name])
+    response = dao_product.get_uom_by_product_name(connection, data)
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    if connection is not None:
+        connection.close()
+        print("Connection closed")
+    return response
+
+
 @app.route('/insertMember', methods=['POST'])
 def insert_member():
     connection = connect_mysql()
