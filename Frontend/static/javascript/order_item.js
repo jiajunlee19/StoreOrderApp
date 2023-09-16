@@ -59,7 +59,7 @@ fetchResponseToDropDown2(
     ['product_id', 'product_name','uom_id', 'uom_name'], 
     'insert',
     'product_name',
-    'product_id',
+    ['product_id'],
     ['product_name', 'uom_name']
 )
 // .then(result => 

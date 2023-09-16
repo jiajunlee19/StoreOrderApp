@@ -283,7 +283,7 @@ function setActionHTML(action, targetElementID, targetUrl, object, confirmMsg) {
 
 
 //Function to fetch data and assign dropdown options, update relevant ID
-async function fetchResponseToDropDown(fetchUrl, columnListFilter, action, dropDownID, updateID, primaryKeyList) {
+async function fetchResponseToDropDown(fetchUrl, columnListFilter, action, dropDownID, updateIDList, primaryKeyList) {
     data = await fetchResponse(fetchUrl);
 
     let optionDropDown = '';
@@ -313,7 +313,7 @@ async function fetchResponseToDropDown(fetchUrl, columnListFilter, action, dropD
     document.getElementById(`${action}-${dropDownID}-select`).innerHTML = optionDropDown;
 
 
-    if (updateID && updateID.length > 0) {
+   updateIDList.forEach(updateID => {
         
         primaryKeyValueList = [];
         primaryKeyList.forEach(primaryKey => {
@@ -340,13 +340,13 @@ async function fetchResponseToDropDown(fetchUrl, columnListFilter, action, dropD
 
         });
 
-    }
+    });
 
 };
 
 
 //Function to fetch data and assign dropdown options, update relevant ID, can add more recursive listener here
-async function fetchResponseToDropDown2(fetchUrl, columnListFilter, action, dropDownID, updateID, primaryKeyList) {
+async function fetchResponseToDropDown2(fetchUrl, columnListFilter, action, dropDownID, updateIDList, primaryKeyList) {
     data = await fetchResponse(fetchUrl);
 
     let optionDropDown = '';
@@ -376,17 +376,17 @@ async function fetchResponseToDropDown2(fetchUrl, columnListFilter, action, drop
     document.getElementById(`${action}-${dropDownID}-select`).innerHTML = optionDropDown;
 
 
-    await fetchResponseToDropDown(
+    fetchResponseToDropDown(
         getUOMbyProductNameUrl + "/" + document.getElementById('insert-product_name-select').value, 
         ['product_id', 'product_name','uom_id', 'uom_name'], 
         'insert',
         'uom_name',
-        'uom_id',
+        ['uom_id', 'product_id'],
         ['product_name', 'uom_name']
-    )
+    );
 
 
-    if (updateID && updateID.length > 0) {
+    updateIDList.forEach (updateID => {
         
         primaryKeyValueList = [];
         primaryKeyList.forEach(primaryKey => {
@@ -416,14 +416,14 @@ async function fetchResponseToDropDown2(fetchUrl, columnListFilter, action, drop
                 ['product_id', 'product_name','uom_id', 'uom_name'], 
                 'insert',
                 'uom_name',
-                'uom_id',
+                ['uom_id', 'product_id'],
                 ['product_name', 'uom_name']
             );
 
 
         });
 
-    }
+    });
 
         
 };

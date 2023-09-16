@@ -51,7 +51,7 @@ fetchResponseToDropDown(
     ['uom_id', 'uom_name'], 
     'insert',
     'uom_name',
-    'uom_id',
+    ['uom_id'],
     ['uom_name']
 );
 
