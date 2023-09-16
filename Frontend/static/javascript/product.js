@@ -45,13 +45,14 @@ setActionHTML(
 );
 
 // set dropdown options
-//arguments: fetchUrl, columnListFilter, action, primaryKey, objectDropDown
+// fetchUrl, columnListFilter, action, dropDownID, updateID
 fetchResponseToDropDown(
     getUOMUrl, 
     ['uom_id', 'uom_name'], 
     'insert',
     'uom_name',
-    {'uom_name': 'uom_id'}
+    'uom_id',
+    ['uom_name']
 );
 
 

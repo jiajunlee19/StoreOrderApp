@@ -53,24 +53,40 @@ document.querySelector('.h2').innerHTML = `
 
 
 // set dropdown options
-// arguments: fetchUrl, columnListFilter, action, primaryKey, objectDropDown
-fetchResponseToDropDown(
+// arguments: fetchUrl, columnListFilter, action, dropDownID, updateID, primaryKeyList
+fetchResponseToDropDown2(
     getProductUrl, 
-    ['product_id', 'product_name'], 
+    ['product_id', 'product_name','uom_id', 'uom_name'], 
     'insert',
     'product_name',
-    {'product_name': 'product_id'}
-);
+    'product_id',
+    ['product_name']
+)
+.then(result => 
+        fetchResponseToDropDown2(
+            getUOMbyProductNameUrl + "/" + document.getElementById('insert-product_name-select').value, 
+            ['product_id', 'product_name','uom_id', 'uom_name'], 
+            'insert',
+            'uom_name',
+            'uom_id',
+            ['uom_name']
+        )
+    )
+;
 
-// set dropdown options
-// arguments: fetchUrl, columnListFilter, action, primaryKey, objectDropDown
-fetchResponseToDropDown(
-    getProductUrl, 
-    ['uom_id', 'uom_name'], 
-    'insert',
-    'uom_name',
-    {'uom_name': 'uom_id'}
-);
+
+
+
+
+// // set dropdown options
+// // arguments: fetchUrl, columnListFilter, action, primaryKey, objectDropDown
+// fetchResponseToDropDown(
+//     getProductUrl, 
+//     ['uom_id', 'uom_name'], 
+//     'insert',
+//     'uom_name',
+//     {'uom_name': 'uom_id'}
+// );
 
 // set dropdown options
 // arguments: fetchUrl, columnListFilter, action, primaryKey, objectDropDown

@@ -7,6 +7,7 @@ const getUOMUrl = `${mainUrl}/getUOM`;
 const getProductUrl = `${mainUrl}/getProduct`;
 const getOrderUrl = `${mainUrl}/getOrder`;
 const getOrderItemUrl = `${mainUrl}/getOrderItem`;
+const getUOMbyProductNameUrl = `${mainUrl}/getUOMbyProductName`;
 
 const insertMemberUrl =`${mainUrl}/insertMember`;
 const insertMemberLevelUrl =`${mainUrl}/insertMemberLevel`;
@@ -30,15 +31,38 @@ const updateOrderUrl =`${mainUrl}/updateOrder`;
 const updateOrderItemUrl =`${mainUrl}/updateOrderItem`;
 
 
-//Function to convert HTML collection into Array
-function collectionToArray(collection){
-    var i, length = collection.length,
-    array = [];
-    for (i = 0;i< length;i++){
-        array.push(collection[i]);
+//create nested object
+function createNestedObject( base, names, value ) {
+    // If a value is given, remove the last name and keep it for later:
+    var lastName = arguments.length === 3 ? names.pop() : false;
+
+    // Walk the hierarchy, creating new objects where needed.
+    // If the lastName was removed, then the last object is not set yet:
+    for( var i = 0; i < names.length; i++ ) {
+        base = base[ names[i] ] = base[ names[i] ] || {};
     }
-    return array;
+
+    // If a value was given, set it to the last name:
+    if( lastName ) base = base[ lastName ] = value;
+
+    // Return the last object in the hierarchy:
+    return base;
+
 };
+
+//access nested object
+function accessNestedObject( base, names) {
+
+    // Walk the hierarchy
+    for( let i = 0; i < names.length; i++ ) {
+        base = base[ names[i] ] = base[ names[i] ] || {};
+    }
+
+    // Return the last object in the hierarchy:
+    return base;
+
+};
+
 
 // Function to hide the Element
 function hideElement(elementID) {
@@ -258,13 +282,14 @@ function setActionHTML(action, targetElementID, targetUrl, object, confirmMsg) {
 
 
 
-//Function to fetch data and assign dropdown options with relevant UID pair
-async function fetchResponseToDropDown(fetchUrl, columnListFilter, action, primaryKey, objectDropDown) {
+//Function to fetch data and assign dropdown options, update relevant ID
+async function fetchResponseToDropDown(fetchUrl, columnListFilter, action, dropDownID, updateID, primaryKeyList) {
     data = await fetchResponse(fetchUrl);
 
-    //
+    let optionDropDown = '';
     let dataFull = {};
-    let optionDropDown = {};
+    let primaryKeyValueList = [];
+
     data.forEach(object => {
         
         let objectFilter = object
@@ -272,31 +297,124 @@ async function fetchResponseToDropDown(fetchUrl, columnListFilter, action, prima
             objectFilter = Object.fromEntries(Object.entries(object).filter( ([key,val]) => columnListFilter.includes(key)))
         };
 
-        dataFull[objectFilter[primaryKey]] = objectFilter
+        optionDropDown += `<option value="${objectFilter[dropDownID]}">${objectFilter[dropDownID]}</option>`;
 
-        Object.keys(objectDropDown).forEach(e => {
-            optionDropDown[e] += `<option value="${objectFilter[e]}">${objectFilter[e]}</option>`
+        //create nested hierachy based on primary keys
+        let hierachyList = [];
+        primaryKeyList.forEach(primaryKey => {
+            hierachyList.push(object[primaryKey])
         });
+        createNestedObject(dataFull, hierachyList, object);
 
     });
+    console.log(dataFull)
 
-    //for each drop-down column, change select dropdown options accordinly based on optionDropDown dict
-    Object.keys(optionDropDown).forEach(key => {
+    // change select dropdown options accordinly based on optionDropDown dict
+    document.getElementById(`${action}-${dropDownID}-select`).innerHTML = optionDropDown;
 
-        document.getElementById(`${action}-${key}-select`).innerHTML = optionDropDown[key];
-        document.getElementById(`${action}-${objectDropDown[key]}-placeholder`).value = dataFull[document.getElementById(`${action}-${key}-select`).value][objectDropDown[key]]
 
-        document.getElementById(`${action}-${key}-select`).addEventListener('change', function() {
+    if (updateID && updateID.length > 0) {
+        
+        primaryKeyValueList = [];
+        primaryKeyList.forEach(primaryKey => {
+            primaryKeyValueList.push( document.getElementById(`${action}-${primaryKey}-select`).value )
+        });
+        primaryKeyValueList.push(updateID)
+        // console.log(accessNestedObject(dataFull, primaryKeyValueList))
 
-            document.getElementById(`${action}-${objectDropDown[key]}-placeholder`).value = dataFull[this.value][objectDropDown[key]]
+        document.getElementById(`${action}-${updateID}-placeholder`).value = accessNestedObject(dataFull, primaryKeyValueList)
+        console.log(document.getElementById(`${action}-${updateID}-placeholder`).value)
+
+
+        document.getElementById(`${action}-${dropDownID}-select`).addEventListener('change', function() {
+
+            primaryKeyValueList = [];
+            primaryKeyList.forEach(primaryKey => {
+                primaryKeyValueList.push( document.getElementById(`${action}-${primaryKey}-select`).value )
+            });
+            primaryKeyValueList.push(updateID)
+            // console.log(accessNestedObject(dataFull, primaryKeyValueList))
+
+            document.getElementById(`${action}-${updateID}-placeholder`).value = accessNestedObject(dataFull, primaryKeyValueList)
+            console.log(document.getElementById(`${action}-${updateID}-placeholder`).value)
 
         });
 
-    }); 
+    }
 
 };
 
 
+//Function to fetch data and assign dropdown options, update relevant ID, can add more recursive listener here
+async function fetchResponseToDropDown2(fetchUrl, columnListFilter, action, dropDownID, updateID, primaryKeyList) {
+    data = await fetchResponse(fetchUrl);
+
+    let optionDropDown = '';
+    let dataFull = {};
+    let primaryKeyValueList = [];
+
+    data.forEach(object => {
+        
+        let objectFilter = object
+        if (columnListFilter && columnListFilter.length > 0) {
+            objectFilter = Object.fromEntries(Object.entries(object).filter( ([key,val]) => columnListFilter.includes(key)))
+        };
+
+        optionDropDown += `<option value="${objectFilter[dropDownID]}">${objectFilter[dropDownID]}</option>`;
+
+        //create nested hierachy based on primary keys
+        let hierachyList = [];
+        primaryKeyList.forEach(primaryKey => {
+            hierachyList.push(object[primaryKey])
+        });
+        createNestedObject(dataFull, hierachyList, object);
+
+    });
+    console.log(dataFull)
+
+    // change select dropdown options accordinly based on optionDropDown dict
+    document.getElementById(`${action}-${dropDownID}-select`).innerHTML = optionDropDown;
+
+
+    if (updateID && updateID.length > 0) {
+        
+        primaryKeyValueList = [];
+        primaryKeyList.forEach(primaryKey => {
+            primaryKeyValueList.push( document.getElementById(`${action}-${primaryKey}-select`).value )
+        });
+        primaryKeyValueList.push(updateID)
+        // console.log(accessNestedObject(dataFull, primaryKeyValueList))
+
+        document.getElementById(`${action}-${updateID}-placeholder`).value = accessNestedObject(dataFull, primaryKeyValueList)
+        console.log(document.getElementById(`${action}-${updateID}-placeholder`).value)
+
+
+        document.getElementById(`${action}-${dropDownID}-select`).addEventListener('change', function() {
+
+            primaryKeyValueList = [];
+            primaryKeyList.forEach(primaryKey => {
+                primaryKeyValueList.push( document.getElementById(`${action}-${primaryKey}-select`).value )
+            });
+            primaryKeyValueList.push(updateID)
+            // console.log(accessNestedObject(dataFull, primaryKeyValueList))
+
+            document.getElementById(`${action}-${updateID}-placeholder`).value = accessNestedObject(dataFull, primaryKeyValueList)
+            console.log(document.getElementById(`${action}-${updateID}-placeholder`).value)
+
+            fetchResponseToDropDown2(
+                getUOMbyProductNameUrl + "/" + document.getElementById(`${action}-${dropDownID}-select`).value, 
+                ['product_id', 'product_name','uom_id', 'uom_name'], 
+                'insert',
+                'uom_name',
+                'uom_id',
+                ['uom_name']
+            );
+
+        });
+
+    }
+        
+};
 
 
 //on click button-delete-row

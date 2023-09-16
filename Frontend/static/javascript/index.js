@@ -41,13 +41,14 @@ setActionHTML(
 
 
 // set dropdown options
-//arguments: fetchUrl, columnListFilter, action, primaryKey, objectDropDown
+//arguments: fetchUrl, columnListFilter, action, dropDownID, updateID, primaryKeyList
 fetchResponseToDropDown(
     getMemberUrl, 
     ['member_id', 'member_name'], 
     'insert',
     'member_name',
-    {'member_name': 'member_id'}
+    'member_id',
+    ['member_name']
 );
 
 
