@@ -307,7 +307,7 @@ async function fetchResponseToDropDown(fetchUrl, columnListFilter, action, dropD
         createNestedObject(dataFull, hierachyList, object);
 
     });
-    console.log(dataFull)
+    // console.log(dataFull)
 
     // change select dropdown options accordinly based on optionDropDown dict
     document.getElementById(`${action}-${dropDownID}-select`).innerHTML = optionDropDown;
@@ -323,7 +323,7 @@ async function fetchResponseToDropDown(fetchUrl, columnListFilter, action, dropD
         // console.log(accessNestedObject(dataFull, primaryKeyValueList))
 
         document.getElementById(`${action}-${updateID}-placeholder`).value = accessNestedObject(dataFull, primaryKeyValueList)
-        console.log(document.getElementById(`${action}-${updateID}-placeholder`).value)
+        // console.log(document.getElementById(`${action}-${updateID}-placeholder`).value)
 
 
         document.getElementById(`${action}-${dropDownID}-select`).addEventListener('change', function() {
@@ -336,7 +336,7 @@ async function fetchResponseToDropDown(fetchUrl, columnListFilter, action, dropD
             // console.log(accessNestedObject(dataFull, primaryKeyValueList))
 
             document.getElementById(`${action}-${updateID}-placeholder`).value = accessNestedObject(dataFull, primaryKeyValueList)
-            console.log(document.getElementById(`${action}-${updateID}-placeholder`).value)
+            // console.log(document.getElementById(`${action}-${updateID}-placeholder`).value)
 
         });
 
@@ -370,10 +370,20 @@ async function fetchResponseToDropDown2(fetchUrl, columnListFilter, action, drop
         createNestedObject(dataFull, hierachyList, object);
 
     });
-    console.log(dataFull)
+    // console.log(dataFull)
 
     // change select dropdown options accordinly based on optionDropDown dict
     document.getElementById(`${action}-${dropDownID}-select`).innerHTML = optionDropDown;
+
+
+    await fetchResponseToDropDown(
+        getUOMbyProductNameUrl + "/" + document.getElementById('insert-product_name-select').value, 
+        ['product_id', 'product_name','uom_id', 'uom_name'], 
+        'insert',
+        'uom_name',
+        'uom_id',
+        ['product_name', 'uom_name']
+    )
 
 
     if (updateID && updateID.length > 0) {
@@ -383,7 +393,7 @@ async function fetchResponseToDropDown2(fetchUrl, columnListFilter, action, drop
             primaryKeyValueList.push( document.getElementById(`${action}-${primaryKey}-select`).value )
         });
         primaryKeyValueList.push(updateID)
-        // console.log(accessNestedObject(dataFull, primaryKeyValueList))
+        console.log(accessNestedObject(dataFull, primaryKeyValueList))
 
         document.getElementById(`${action}-${updateID}-placeholder`).value = accessNestedObject(dataFull, primaryKeyValueList)
         console.log(document.getElementById(`${action}-${updateID}-placeholder`).value)
@@ -401,18 +411,20 @@ async function fetchResponseToDropDown2(fetchUrl, columnListFilter, action, drop
             document.getElementById(`${action}-${updateID}-placeholder`).value = accessNestedObject(dataFull, primaryKeyValueList)
             console.log(document.getElementById(`${action}-${updateID}-placeholder`).value)
 
-            fetchResponseToDropDown2(
+            fetchResponseToDropDown(
                 getUOMbyProductNameUrl + "/" + document.getElementById(`${action}-${dropDownID}-select`).value, 
                 ['product_id', 'product_name','uom_id', 'uom_name'], 
                 'insert',
                 'uom_name',
                 'uom_id',
-                ['uom_name']
+                ['product_name', 'uom_name']
             );
+
 
         });
 
     }
+
         
 };
 

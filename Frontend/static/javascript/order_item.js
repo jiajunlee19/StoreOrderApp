@@ -60,18 +60,19 @@ fetchResponseToDropDown2(
     'insert',
     'product_name',
     'product_id',
-    ['product_name']
+    ['product_name', 'uom_name']
 )
-.then(result => 
-        fetchResponseToDropDown2(
-            getUOMbyProductNameUrl + "/" + document.getElementById('insert-product_name-select').value, 
-            ['product_id', 'product_name','uom_id', 'uom_name'], 
-            'insert',
-            'uom_name',
-            'uom_id',
-            ['uom_name']
-        )
-    )
+// .then(result => 
+//         fetchResponseToDropDown(
+//             getUOMbyProductNameUrl + "/" + document.getElementById('insert-product_name-select').value, 
+//             ['product_id', 'product_name','uom_id', 'uom_name'], 
+//             'insert',
+//             'uom_name',
+//             'uom_id',
+//             ['product_name', 'uom_name']
+//         )
+//     )
+
 ;
 
 
