@@ -7,60 +7,53 @@ In this project, we will build a 3-tier store order management application.
 
 
 
-![](homepage.JPG)
-
 ### Installation Instructions
 Download mysql for windows: https://dev.mysql.com/downloads/installer/
 `pip install mysql-connector-python`
 
 
 
-# Let's start working on the first part -> Database: mysql
+# Database: mysql
 
 I have generated a CREATE_TABLES.sql script, you can run it in mySQL Workbench and it will create everything required for this project automatically.
-<Ref script here>
 
-// or you can create the tables manually thru mySQL workbench.
-Key points to note when designing database structure:
-	To reduce data redundancy, your database structure should at least meeting third normalization level - 3NF (Ref: https://www.guru99.com/database-normalization.html)
-		1NF: Each table cell should contain a single value, and each record needs to be unique
-		2NF: Each table should have a Single Column Primary Key and contains only columns related to the primary key
-		3NF: Each column of a table should be transitive functional independent to other columns in the table
+[CREATE_TABLE.sql](/Database/CREATE_TABLE.sql)
 
-<db_design image>
+To reduce data redundancy, your database structure should at least meeting third normalization level - 3NF
+1. 1NF: Each table cell should contain a single value, and each record needs to be unique
+2. 2NF: Each table should have a Single Column Primary Key and contains only columns related to the primary key
+3. 3NF: Each column of a table should be transitive functional independent to other columns in the table
 
-
-
-# Once database is ready, let's jump into backend design using Python
-
-1) Connect to your mySQL using python mysql-connector
-db_connection.py
-
-2) For each base table, write queries (select,insert,delete) into backend database-object (dao) scripts
-products_dao.py, orders_dao.py, uom_dao.py....
-
-These dao are used to interact with front end UI later.
-
-3) Generate a Flask server, connecting backend to frontend
-flask-server.py
-
-Step 3: Create views that is needed to show in UI
-?
-
-
-# Design UI
+![SCHEMA_DIAGRAM](\Database\SCHEMA_DIAGRAM.png)
 
 
 
+# Backend: Python Flask
 
-### Exercise 
+Generate a Flask server, keep it running to connect backend to frontend
+[server_flask.py](/Frontend/server_flask.py)
 
-The grocery management system that we built is functional but after we give it to users for use, we got following feedback. The exercise for you to address this feedback and implement these features in the application,
-1. **Products Module**: In products page that lists current products, add an edit button next to delete button that allows to edit current product
-2. **Products Module**: Implement a new form that allows you to add new UOM in the application. For example you want to add **Cubic Meter** as a new UOM as the grocery store decided to start selling **wood** as well. This requies changing backend (python server) and front end (UI) both.
-3. **Orders Module**: When you place an order it doesn't have any validation. For example one can enter an order with empty customer name. You need to add validation for customer name and invalid item name or not specifying a quantity etc. This is only front end UI work.
-4. **Orders Module**: In new order page there is a bug. When you manually change total price of an item it doesn't change the grand total. You need to fix this issue.
-5. **Orders Module**: In the grid where orders are listed, add a view button in the last column. On clicking this button it should show you order details where individual items in that order are listed along with their price/quantity etc.
+   
 
-Reference link:
-Scrum - https://scrumtrainingseries.com/
+# Frontend 
+There's two type of access level.
+1. User can only manage their order/order_item
+2. Admin have additional privileges to manage member/member_level/uom/product
+
+### [Admin] Manage Member
+![member.png](/Misc/member.PNG)
+
+### [Admin] Manage Member Level
+![member_level.png](/Misc/member_level.PNG)
+
+### [Admin] Manage UOM
+![uom.png](/Misc/uom.PNG)
+
+### [Admin] Manage Product
+![product.png](/Misc/product.PNG)
+
+### Manage Order
+![order.png](/Misc/order.PNG)
+
+### Manage Order Item
+![order_item.png](/Misc/order_item.PNG)
