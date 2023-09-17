@@ -289,6 +289,7 @@ async function fetchResponseToDropDown(fetchUrl, columnListFilter, action, dropD
     let optionDropDown = '';
     let dataFull = {};
     let primaryKeyValueList = [];
+    let checkedOption = [];
 
     data.forEach(object => {
         
@@ -297,7 +298,13 @@ async function fetchResponseToDropDown(fetchUrl, columnListFilter, action, dropD
             objectFilter = Object.fromEntries(Object.entries(object).filter( ([key,val]) => columnListFilter.includes(key)))
         };
 
-        optionDropDown += `<option value="${objectFilter[dropDownID]}">${objectFilter[dropDownID]}</option>`;
+        //To avoid duplicate options
+        if (!checkedOption.includes(objectFilter[dropDownID])) {
+
+            optionDropDown += `<option value="${objectFilter[dropDownID]}">${objectFilter[dropDownID]}</option>`;
+            checkedOption.push(objectFilter[dropDownID])
+
+        }
 
         //create nested hierachy based on primary keys
         let hierachyList = [];
@@ -352,6 +359,7 @@ async function fetchResponseToDropDown2(fetchUrl, columnListFilter, action, drop
     let optionDropDown = '';
     let dataFull = {};
     let primaryKeyValueList = [];
+    let checkedOption = [];
 
     data.forEach(object => {
         
@@ -360,7 +368,14 @@ async function fetchResponseToDropDown2(fetchUrl, columnListFilter, action, drop
             objectFilter = Object.fromEntries(Object.entries(object).filter( ([key,val]) => columnListFilter.includes(key)))
         };
 
-        optionDropDown += `<option value="${objectFilter[dropDownID]}">${objectFilter[dropDownID]}</option>`;
+        //To avoid duplicate options
+        if (!checkedOption.includes(objectFilter[dropDownID])) {
+
+            optionDropDown += `<option value="${objectFilter[dropDownID]}">${objectFilter[dropDownID]}</option>`;
+            checkedOption.push(objectFilter[dropDownID])
+
+        }
+
 
         //create nested hierachy based on primary keys
         let hierachyList = [];
@@ -393,10 +408,10 @@ async function fetchResponseToDropDown2(fetchUrl, columnListFilter, action, drop
             primaryKeyValueList.push( document.getElementById(`${action}-${primaryKey}-select`).value )
         });
         primaryKeyValueList.push(updateID)
-        console.log(accessNestedObject(dataFull, primaryKeyValueList))
+        // console.log(accessNestedObject(dataFull, primaryKeyValueList))
 
         document.getElementById(`${action}-${updateID}-placeholder`).value = accessNestedObject(dataFull, primaryKeyValueList)
-        console.log(document.getElementById(`${action}-${updateID}-placeholder`).value)
+        // console.log(document.getElementById(`${action}-${updateID}-placeholder`).value)
 
 
         document.getElementById(`${action}-${dropDownID}-select`).addEventListener('change', function() {

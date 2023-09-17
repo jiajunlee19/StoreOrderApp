@@ -56,11 +56,11 @@ document.querySelector('.h2').innerHTML = `
 // arguments: fetchUrl, columnListFilter, action, dropDownID, updateID, primaryKeyList
 fetchResponseToDropDown2(
     getProductUrl, 
-    ['product_id', 'product_name','uom_id', 'uom_name'], 
+    ['product_id', 'product_name'], 
     'insert',
     'product_name',
     ['product_id'],
-    ['product_name', 'uom_name']
+    ['product_name']
 )
 // .then(result => 
 //         fetchResponseToDropDown(
