@@ -1,10 +1,11 @@
 # Store Order App
 
+This project is for demo purpose, the system is running under local host environment.
+
 In this project, we will build a 3-tier store order management application.
 1. Database: mysql
 2. Backend: Python Flask
 3. Front end: UI is written in HTML/CSS/Javascript
-
 
 
 ### Installation Instructions
@@ -72,6 +73,7 @@ To update order item, fields are populated upon 'edit' button click.
    1. Users can get discount % based on their member level
    2. Users can be upgraded into higher member level when bonus points reached certain level
 
+3. Publish website into cloud
 
 # Thanks for visiting! 
 Feel free to contact repo owner for any questions.
