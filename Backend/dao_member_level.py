@@ -8,6 +8,7 @@ def get_member_level(conn):
         select BIN_TO_UUID(member_level_id) as member_level_id, member_level, bonus_points_min, bonus_points_max,
         member_level_created_date, member_level_updated_date
         from store.member_level
+        order by bonus_points_min, bonus_points_max
     """
     cursor = conn.cursor()
     response = select_query(cursor, query)
