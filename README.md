@@ -36,9 +36,7 @@ Generate a Flask server, keep it running to connect backend to frontend
    
 
 # Frontend 
-There's two type of access level.
-1. User can only manage their order/order_item
-2. Admin have additional privileges to manage member/member_level/uom/product
+Here's the front end.
 
 ### [Admin] Manage Member
 ![member.png](/Misc/member.PNG)
@@ -57,3 +55,23 @@ There's two type of access level.
 
 ### Manage Order Item
 ![order_item.png](/Misc/order_item.PNG)
+
+To add order item, dropdown options are given based on product/uom available.
+![order_item_add.png](/Misc/order_item_add.PNG)
+
+To update order item, fields are populated upon 'edit' button click.
+![order_item_update_onclick.png](/Misc/order_item_update_onclick.PNG)
+
+
+# Idea: Additional Features 
+1. Design a login system, giving two type of access level.
+   1. User can only manage their order/order_item
+   2. Admin have additional privileges to manage member/member_level/uom/product
+
+2. Design a discount system for users with higher member level
+   1. Users can get discount % based on their member level
+   2. Users can be upgraded into higher member level when bonus points reached certain level
+
+
+# Thanks for visiting! 
+Feel free to contact repo owner for any questions.
