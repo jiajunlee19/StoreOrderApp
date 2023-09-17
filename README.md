@@ -17,14 +17,14 @@ Download mysql for windows: https://dev.mysql.com/downloads/installer/
 
 I have generated a CREATE_TABLES.sql script, you can run it in mySQL Workbench and it will create everything required for this project automatically.
 
-[CREATE_TABLE.sql](/Database/CREATE_TABLE.sql)
+[CREATE_TABLE.sql](/Database/CREATE%20TABLES.sql)
 
 To reduce data redundancy, your database structure should at least meeting third normalization level - 3NF
 1. 1NF: Each table cell should contain a single value, and each record needs to be unique
 2. 2NF: Each table should have a Single Column Primary Key and contains only columns related to the primary key
 3. 3NF: Each column of a table should be transitive functional independent to other columns in the table
 
-![SCHEMA_DIAGRAM](\Database\SCHEMA_DIAGRAM.png)
+![SCHEMA_DIAGRAM.png](/Database/SCHEMA_DIAGRAM.png)
 
 
 
