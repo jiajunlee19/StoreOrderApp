@@ -74,6 +74,16 @@ function showElement(elementID) {
     document.getElementById(elementID).style.display = 'block';
 };
 
+// Function to toggle show/hide element
+function toggleElement(elementID) {
+    if (document.getElementById('update').style.display === 'none') {
+        showElement(elementID);
+    }
+    else {
+        hideElement(elementID);
+    }
+};
+
 
 // Defining async function to fetch response only
 async function fetchResponse(fetchUrl) {
@@ -176,6 +186,7 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
         Object.keys(objectUpdate).forEach(key => {
             editButtonOnClick += `
                 document.getElementById('update-${key}-placeholder').value = document.getElementById('row-${i}').getAttribute('data-${key}');
+                showElement('update');
             `;
         }); 
         
