@@ -61,11 +61,14 @@ def update_order(conn, data_dict, order_id):
 
 def delete_order(conn, order_id):
     query = f"DELETE FROM store.order where BIN_TO_UUID(order_id) = '{order_id}';"
-    cursor = conn.cursor()
-    cursor.execute(query)
-    conn.commit()
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+        return f"{order_id} is deleted"
 
-    return f"{order_id} is deleted"
+    except mysql.connector.IntegrityError as ie:
+        return f"Integrity error: {str(ie)}"
 
 
 if __name__ == '__main__':

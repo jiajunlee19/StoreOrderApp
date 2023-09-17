@@ -74,11 +74,14 @@ def update_product(conn, data_dict, product_id):
 
 def delete_product(conn, product_id):
     query = f"DELETE FROM store.product where BIN_TO_UUID(product_id) = '{product_id}';"
-    cursor = conn.cursor()
-    cursor.execute(query)
-    conn.commit()
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+        return f"{product_id} is deleted"
 
-    return f"{product_id} is deleted"
+    except mysql.connector.IntegrityError as ie:
+        return f"Integrity error: {str(ie)}"
 
 
 if __name__ == '__main__':

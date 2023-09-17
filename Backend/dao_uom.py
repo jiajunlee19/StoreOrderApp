@@ -56,11 +56,14 @@ def update_uom(conn, data_dict, uom_id):
 
 def delete_uom(conn, uom_id):
     query = f"DELETE FROM store.uom where BIN_TO_UUID(uom_id) = '{uom_id}';"
-    cursor = conn.cursor()
-    cursor.execute(query)
-    conn.commit()
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+        return f"{uom_id} is deleted"
 
-    return f"{uom_id} is deleted"
+    except mysql.connector.IntegrityError as ie:
+        return f"Integrity error: {str(ie)}"
 
 
 if __name__ == '__main__':

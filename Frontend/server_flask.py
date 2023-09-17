@@ -365,60 +365,75 @@ def update_order_item():
 def delete_member():
     connection = connect_mysql()
     response = dao_member.delete_member(connection, request.form['member_id'])
-    response = jsonify(response)
-    response.headers.add('Access-Control-Allow-Origin', '*')
     if connection is not None:
         connection.close()
         print("Connection closed")
-    return render_template('member.html')
+    if 'error' in response:
+        return response
+    else:
+        response = jsonify(response)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return render_template('member.html')
 
 
 @app.route('/deleteMemberLevel', methods=['POST'])
 def delete_member_level():
     connection = connect_mysql()
     response = dao_member_level.delete_member_level(connection, request.form['member_level_id'])
-    response = jsonify(response)
-    response.headers.add('Access-Control-Allow-Origin', '*')
     if connection is not None:
         connection.close()
         print("Connection closed")
-    return render_template('member_level.html')
+    if 'error' in response:
+        return response
+    else:
+        response = jsonify(response)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return render_template('member_level.html')
 
 
 @app.route('/deleteUOM', methods=['POST'])
 def delete_uom():
     connection = connect_mysql()
     response = dao_uom.delete_uom(connection, request.form['uom_id'])
-    response = jsonify(response)
-    response.headers.add('Access-Control-Allow-Origin', '*')
     if connection is not None:
         connection.close()
         print("Connection closed")
-    return render_template('uom.html')
+    if 'error' in response:
+        return response
+    else:
+        response = jsonify(response)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return render_template('uom.html')
 
 
 @app.route('/deleteProduct', methods=['POST'])
 def delete_product():
     connection = connect_mysql()
     response = dao_product.delete_product(connection, request.form['product_id'])
-    response = jsonify(response)
-    response.headers.add('Access-Control-Allow-Origin', '*')
     if connection is not None:
         connection.close()
         print("Connection closed")
-    return render_template('product.html')
+    if 'error' in response:
+        return response
+    else:
+        response = jsonify(response)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return render_template('product.html')
 
 
 @app.route('/deleteOrder', methods=['POST'])
 def delete_order():
     connection = connect_mysql()
     response = dao_order.delete_order(connection, request.form['order_id'])
-    response = jsonify(response)
-    response.headers.add('Access-Control-Allow-Origin', '*')
     if connection is not None:
         connection.close()
         print("Connection closed")
-    return render_template('index.html')
+    if 'error' in response:
+        return response
+    else:
+        response = jsonify(response)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return render_template('index.html')
 
 
 @app.route('/deleteOrderItem', methods=['POST'])
@@ -426,12 +441,15 @@ def delete_order_item():
     connection = connect_mysql()
     order_id = request.form['order_id']
     response = dao_order_item.delete_order_item(connection, request.form['order_item_id'])
-    response = jsonify(response)
-    response.headers.add('Access-Control-Allow-Origin', '*')
     if connection is not None:
         connection.close()
         print("Connection closed")
-    return redirect(url_for("order_item", order_id=order_id))
+    if 'error' in response:
+        return response
+    else:
+        response = jsonify(response)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return redirect(url_for("order_item", order_id=order_id))
 
 
 if __name__ == "__main__":

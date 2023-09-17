@@ -1,5 +1,5 @@
 import mysql.connector
-from Backend.db_connection import connect_mysql,  select_query, generate_insert_statement, generate_update_statement
+from Backend.db_connection import connect_mysql, select_query, generate_insert_statement, generate_update_statement
 from datetime import datetime
 
 
@@ -15,7 +15,6 @@ def get_member_level(conn):
 
 
 def insert_member_level(conn, data_dict):
-
     query, data, uuid = generate_insert_statement(
         'store.member_level',
         data_dict,
@@ -38,7 +37,6 @@ def insert_member_level(conn, data_dict):
 
 
 def update_member_level(conn, data_dict, member_level_id):
-
     query, data, uuid = generate_update_statement(
         'store.member_level',
         data_dict,
@@ -61,13 +59,15 @@ def update_member_level(conn, data_dict, member_level_id):
 
 
 def delete_member_level(conn, member_level_id):
-
     query = f"DELETE FROM store.member_level where BIN_TO_UUID(member_level_id) = '{member_level_id}';"
-    cursor = conn.cursor()
-    cursor.execute(query)
-    conn.commit()
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+        return f"{member_level_id} is deleted"
 
-    return f"{member_level_id} is deleted"
+    except mysql.connector.IntegrityError as ie:
+        return f"Integrity error: {str(ie)}"
 
 
 if __name__ == '__main__':
@@ -89,13 +89,13 @@ if __name__ == '__main__':
 
     print(
         update_member_level(connection,
-                      {
-                          "bonus_points_min": 0,
-                          "bonus_points_max": 10,
-                          "member_level_updated_date": datetime.now()
-                      },
-                      '18a74e86-b9a4-512e-9bbe-c47f2ec69213'
-                      )
+                            {
+                                "bonus_points_min": 0,
+                                "bonus_points_max": 10,
+                                "member_level_updated_date": datetime.now()
+                            },
+                            '18a74e86-b9a4-512e-9bbe-c47f2ec69213'
+                            )
     )
 
     # print(

@@ -63,11 +63,14 @@ def update_member(conn, data_dict, member_id):
 def delete_member(conn, member_id):
 
     query = f"DELETE FROM store.member where BIN_TO_UUID(member_id) = '{member_id}';"
-    cursor = conn.cursor()
-    cursor.execute(query)
-    conn.commit()
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+        return f"{member_id} is deleted"
 
-    return f"{member_id} is deleted"
+    except mysql.connector.IntegrityError as ie:
+        return f"Integrity error: {str(ie)}"
 
 
 if __name__ == '__main__':
