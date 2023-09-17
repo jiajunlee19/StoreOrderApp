@@ -34,6 +34,8 @@ Here's how the schema diagram looks like:
 
 
 # Backend: Python Flask
+All database-related functions are defined in:
+[db_connection.py](Backend/db_connection.py)
 
 Generate a Flask server, keep it running to connect backend to frontend
 [server_flask.py](/Frontend/server_flask.py)
@@ -41,7 +43,7 @@ Generate a Flask server, keep it running to connect backend to frontend
    
 
 # Frontend 
-Here's the front end.
+Here's the front end, developed using HTML and Javascript with minimum CSS involvement.
 
 ### [Admin] Manage Member
 ![member.png](/Misc/member.PNG)
