@@ -47,7 +47,7 @@ fetchResponseToDropDown(
     ['member_id', 'member_name'], 
     'insert',
     'member_name',
-    'member_id',
+    ['member_id'],
     ['member_name']
 );
 
