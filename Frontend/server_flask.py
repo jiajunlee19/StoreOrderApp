@@ -1,4 +1,4 @@
-from flask import (Flask, request, jsonify, render_template)
+from flask import (Flask, request, jsonify, render_template, url_for, redirect)
 from datetime import datetime
 from Backend.db_connection import connect_mysql
 from Backend import dao_member
@@ -236,7 +236,7 @@ def insert_order_item():
     data_dict = {
         "order_id": request.form['order_id'],
         "product_id": request.form['product_id'],
-        "uom_id": request.form['uom_id'],
+        # "uom_id": request.form['uom_id'],
         "order_item_quantity": request.form['order_item_quantity'],
         "order_item_created_date": datetime.now(),
         "order_item_updated_date": datetime.now()
@@ -248,7 +248,7 @@ def insert_order_item():
     if 'error' in response:
         return response
     else:
-        return render_template('order_item.html')
+        return redirect(url_for("order_item", order_id=data_dict['order_id']))
 
 
 @app.route('/updateMember', methods=['POST'])
@@ -345,6 +345,7 @@ def update_order():
 @app.route('/updateOrderItem', methods=['POST'])
 def update_order_item():
     connection = connect_mysql()
+    order_id = request.form['order_id']
     data_dict = {
         "order_item_quantity": request.form['order_item_quantity'],
         "order_item_updated_date": datetime.now()
@@ -357,7 +358,7 @@ def update_order_item():
     if 'error' in response:
         return response
     else:
-        return render_template('order_item.html')
+        return redirect(url_for("order_item", order_id=order_id))
 
 
 @app.route('/deleteMember', methods=['POST'])
@@ -423,13 +424,14 @@ def delete_order():
 @app.route('/deleteOrderItem', methods=['POST'])
 def delete_order_item():
     connection = connect_mysql()
+    order_id = request.form['order_id']
     response = dao_order_item.delete_order_item(connection, request.form['order_item_id'])
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
     if connection is not None:
         connection.close()
         print("Connection closed")
-    return render_template('order_item.html')
+    return redirect(url_for("order_item", order_id=order_id))
 
 
 if __name__ == "__main__":

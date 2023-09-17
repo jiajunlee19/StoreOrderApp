@@ -7,7 +7,7 @@ fetchResponseToTableBody(
     'table-body',
     ['order_item_id', 'product_name', 'uom_name', 'order_item_quantity'], 
     deleteOrderItemUrl,
-    ['order_item_id'],
+    ['order_item_id', 'order_id'],
     ['order_item_id', 'product_id', 'product_name', 'uom_id', 'uom_name']
 );
 
@@ -61,43 +61,9 @@ fetchResponseToDropDown2(
     'product_name',
     ['product_id'],
     ['product_name']
-)
-// .then(result => 
-//         fetchResponseToDropDown(
-//             getUOMbyProductNameUrl + "/" + document.getElementById('insert-product_name-select').value, 
-//             ['product_id', 'product_name','uom_id', 'uom_name'], 
-//             'insert',
-//             'uom_name',
-//             'uom_id',
-//             ['product_name', 'uom_name']
-//         )
-//     )
-
-;
+);
 
 
-
-
-
-// // set dropdown options
-// // arguments: fetchUrl, columnListFilter, action, primaryKey, objectDropDown
-// fetchResponseToDropDown(
-//     getProductUrl, 
-//     ['uom_id', 'uom_name'], 
-//     'insert',
-//     'uom_name',
-//     {'uom_name': 'uom_id'}
-// );
-
-// set dropdown options
-// arguments: fetchUrl, columnListFilter, action, primaryKey, objectDropDown
-// fetchResponseToDropDown(
-//     getProductUrl, 
-//     ['product_id', 'product_name','uom_id','uom_name'], 
-//     'update',
-//     'product_name',
-//     {'product_name': 'product_id', 'uom_name': 'uom_id'}
-// );
 
 
 //change order_id to current_order_id

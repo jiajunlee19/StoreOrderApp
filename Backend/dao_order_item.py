@@ -6,7 +6,7 @@ from datetime import datetime
 def get_order_item(conn, data):
     query = """
         select BIN_TO_UUID(i.order_item_id) as order_item_id, BIN_TO_UUID(i.order_id) as order_id, 
-        BIN_TO_UUID(i.product_id) as product_id, p.product_name, p.uom_id, u.uom_name,
+        BIN_TO_UUID(i.product_id) as product_id, p.product_name, BIN_TO_UUID(p.uom_id) as uom_id, u.uom_name,
         p.product_unit_price, p.product_bonus_points, i.order_item_quantity 
         from store.order_item i
         inner join store.product p on i.product_id = p.product_id
