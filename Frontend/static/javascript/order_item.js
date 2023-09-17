@@ -5,10 +5,10 @@ fetchResponseToTableBody(
     'table-loader', 
     'table-head', 
     'table-body',
-    ['order_item_id', 'product_name', 'uom_name', 'order_item_quantity'], 
+    ['product_name', 'uom_name', 'order_item_quantity'], 
     deleteOrderItemUrl,
     ['order_item_id', 'order_id'],
-    ['order_item_id', 'product_id', 'product_name', 'uom_id', 'uom_name']
+    ['order_item_id', 'order_id', 'product_id', 'product_name', 'uom_id', 'uom_name']
 );
 
 // set Insert HTML
@@ -18,10 +18,10 @@ setActionHTML(
     'insert', 
     insertOrderItemUrl, 
     {
-        'order_id': 'readonly',
-        'product_id': 'readonly',
+        'order_id': 'hidden',
+        'product_id': 'hidden',
         'product_name': 'select',
-        'uom_id': 'readonly',
+        'uom_id': 'hidden',
         'uom_name': 'select',
         'order_item_quantity': 'number'
     },
@@ -35,8 +35,8 @@ setActionHTML(
     'update', 
     updateOrderItemUrl, 
     {   
-        'order_item_id': 'readonly',
-        'order_id': 'readonly',
+        'order_item_id': 'hidden',
+        'order_id': 'hidden',
         'product_id': 'hidden',
         'product_name': 'readonly',
         'uom_id': 'hidden',
