@@ -5,7 +5,7 @@ fetchResponseToTableBody(
     'table-loader', 
     'table-head', 
     'table-body',
-    ['product_name', 'uom_name', 'order_item_quantity'], 
+    ['product_name', 'uom_name', 'order_item_quantity', 'price_subtotal', 'bonus_points_subtotal'], 
     deleteOrderItemUrl,
     ['order_item_id', 'order_id'],
     ['order_item_id', 'order_id', 'product_id', 'product_name', 'uom_id', 'uom_name']
