@@ -43,7 +43,7 @@ Generate a Flask server, keep it running to connect backend to frontend
    
 
 # Frontend 
-Here's the front end, developed using HTML and Javascript with minimum CSS involvement.
+Here's the front end, developed using HTML and Javascript with minimum CSS involvement. All pages are having interactive functions to add new item/edit existing item/delete existing item.
 
 ### [Admin] Manage Member
 ![member.png](/Misc/member.PNG)
@@ -63,10 +63,10 @@ Here's the front end, developed using HTML and Javascript with minimum CSS invol
 ### Manage Order Item
 ![order_item.png](/Misc/order_item.PNG)
 
-To add order item, dropdown options are given based on product/uom available.
+1. To add order item, dropdown options are given based on product/uom available.
 ![order_item_add.png](/Misc/order_item_add.PNG)
 
-To update order item, fields are populated upon 'edit' button click.
+2. To update order item, primary items are automatically populated into read-only field upon 'edit' button click.
 ![order_item_update_onclick.png](/Misc/order_item_update_onclick.PNG)
 
 
