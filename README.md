@@ -9,8 +9,8 @@ In this project, we will build a 3-tier store order management application.
 
 
 ### Installation Instructions
-Download mysql for windows: https://dev.mysql.com/downloads/installer/
-`pip install mysql-connector-python`
+1. Download mysql for windows: https://dev.mysql.com/downloads/installer/
+2. `pip install -r requirements.txt`
 
 
 
