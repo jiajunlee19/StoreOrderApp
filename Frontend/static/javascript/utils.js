@@ -1,34 +1,34 @@
 // Define your api urls here
 const mainUrl = 'http://127.0.0.1:5000';
 
-const getMemberUrl = `${mainUrl}/getMember`;
-const getMemberLevelUrl = `${mainUrl}/getMemberLevel`;
-const getUOMUrl = `${mainUrl}/getUOM`;
-const getProductUrl = `${mainUrl}/getProduct`;
-const getOrderUrl = `${mainUrl}/getOrder`;
-const getOrderItemUrl = `${mainUrl}/getOrderItem`;
-const getUOMbyProductNameUrl = `${mainUrl}/getUOMbyProductName`;
+const getMemberUrl = `/getMember`;
+const getMemberLevelUrl = `/getMemberLevel`;
+const getUOMUrl = `/getUOM`;
+const getProductUrl = `/getProduct`;
+const getOrderUrl = `/getOrder`;
+const getOrderItemUrl = `/getOrderItem`;
+const getUOMbyProductNameUrl = `/getUOMbyProductName`;
 
-const insertMemberUrl =`${mainUrl}/insertMember`;
-const insertMemberLevelUrl =`${mainUrl}/insertMemberLevel`;
-const insertUOMUrl =`${mainUrl}/insertUOM`;
-const insertProductUrl =`${mainUrl}/insertProduct`;
-const insertOrderUrl =`${mainUrl}/insertOrder`;
-const insertOrderItemUrl =`${mainUrl}/insertOrderItem`;
+const insertMemberUrl =`/insertMember`;
+const insertMemberLevelUrl =`/insertMemberLevel`;
+const insertUOMUrl =`/insertUOM`;
+const insertProductUrl =`/insertProduct`;
+const insertOrderUrl =`/insertOrder`;
+const insertOrderItemUrl =`/insertOrderItem`;
 
-const deleteMemberUrl =`${mainUrl}/deleteMember`;
-const deleteMemberLevelUrl =`${mainUrl}/deleteMemberLevel`;
-const deleteUOMUrl =`${mainUrl}/deleteUOMr`;
-const deleteProductUrl =`${mainUrl}/deleteProduct`;
-const deleteOrderUrl =`${mainUrl}/deleteOrder`;
-const deleteOrderItemUrl =`${mainUrl}/deleteOrderItem`;
+const deleteMemberUrl =`/deleteMember`;
+const deleteMemberLevelUrl =`/deleteMemberLevel`;
+const deleteUOMUrl =`/deleteUOMr`;
+const deleteProductUrl =`/deleteProduct`;
+const deleteOrderUrl =`/deleteOrder`;
+const deleteOrderItemUrl =`/deleteOrderItem`;
 
-const updateMemberUrl =`${mainUrl}/updateMember`;
-const updateMemberLevelUrl =`${mainUrl}/updateMemberLevel`;
-const updateUOMUrl =`${mainUrl}/updateUOM`;
-const updateProductUrl =`${mainUrl}/updateProduct`;
-const updateOrderUrl =`${mainUrl}/updateOrder`;
-const updateOrderItemUrl =`${mainUrl}/updateOrderItem`;
+const updateMemberUrl =`/updateMember`;
+const updateMemberLevelUrl =`/updateMemberLevel`;
+const updateUOMUrl =`/updateUOM`;
+const updateProductUrl =`/updateProduct`;
+const updateOrderUrl =`/updateOrder`;
+const updateOrderItemUrl =`/updateOrderItem`;
 
 
 //create nested object
@@ -198,7 +198,7 @@ async function fetchResponseToTableBody(fetchUrl, loaderElementID, tableHeadElem
                 <td>
                     <button class="button-view-order" onclick="
                         clickedOrder = document.getElementById('row-${i}').getAttribute('data-order_id');
-                        location = '${mainUrl}/orderItem/' + clickedOrder;
+                        location = '/orderItem/' + clickedOrder;
                     ">
                         view
                     </button>
