@@ -1,13 +1,14 @@
 import mysql.connector
-from Backend.db_connection import connect_mysql, select_query, generate_insert_statement, generate_update_statement
+from Backend.db_connection import (myDatabase, connect_mysql,  select_query,
+                                   generate_insert_statement, generate_update_statement)
 from datetime import datetime
 
 
 def get_order(conn):
-    query = """
+    query = f"""
         select BIN_TO_UUID(o.order_id) as order_id, o.order_created_date, 
         BIN_TO_UUID(o.member_id) as member_id, m.member_name
-        from store.order o
+        from {myDatabase}.order o
         inner join store.member m on o.member_id = m.member_id
     """
     cursor = conn.cursor()
@@ -17,7 +18,7 @@ def get_order(conn):
 
 def insert_order(conn, data_dict):
     query, data, uuid = generate_insert_statement(
-        'store.order',
+        f'{myDatabase}.order',
         data_dict,
         ['order_id', 'member_id'],
         'order_id',
@@ -39,7 +40,7 @@ def insert_order(conn, data_dict):
 
 def update_order(conn, data_dict, order_id):
     query, data, uuid = generate_update_statement(
-        'store.order',
+        f'{myDatabase}.order',
         data_dict,
         [],
         [],
@@ -60,7 +61,7 @@ def update_order(conn, data_dict, order_id):
 
 
 def delete_order(conn, order_id):
-    query = f"DELETE FROM store.order where BIN_TO_UUID(order_id) = '{order_id}';"
+    query = f"DELETE FROM {myDatabase}.order where BIN_TO_UUID(order_id) = '{order_id}';"
     try:
         cursor = conn.cursor()
         cursor.execute(query)

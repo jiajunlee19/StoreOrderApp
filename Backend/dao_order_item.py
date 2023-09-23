@@ -1,18 +1,19 @@
 import mysql.connector
-from Backend.db_connection import connect_mysql, select_query, generate_insert_statement, generate_update_statement
+from Backend.db_connection import (myDatabase, connect_mysql,  select_query,
+                                   generate_insert_statement, generate_update_statement)
 from datetime import datetime
 
 
 def get_order_item(conn, data):
-    query = """
+    query = f"""
         select BIN_TO_UUID(i.order_item_id) as order_item_id, BIN_TO_UUID(i.order_id) as order_id, 
         BIN_TO_UUID(i.product_id) as product_id, p.product_name, BIN_TO_UUID(p.uom_id) as uom_id, u.uom_name,
         p.product_unit_price, p.product_bonus_points, i.order_item_quantity,
         round(p.product_unit_price*i.order_item_quantity, 2) as price_subtotal,
         round(p.product_bonus_points*i.order_item_quantity, 2) as bonus_points_subtotal
-        from store.order_item i
-        inner join store.product p on i.product_id = p.product_id
-        inner join store.uom u on p.uom_id = u.uom_id
+        from {myDatabase}.order_item i
+        inner join {myDatabase}.product p on i.product_id = p.product_id
+        inner join {myDatabase}.uom u on p.uom_id = u.uom_id
         where i.order_id = UUID_TO_BIN(%s)
     """
     cursor = conn.cursor()
@@ -22,7 +23,7 @@ def get_order_item(conn, data):
 
 def insert_order_item(conn, data_dict):
     query, data, uuid = generate_insert_statement(
-        'store.order_item',
+        f'{myDatabase}.order_item',
         data_dict,
         ['order_item_id', 'order_id', 'product_id'],
         'order_item_id',
@@ -44,7 +45,7 @@ def insert_order_item(conn, data_dict):
 
 def update_order_item(conn, data_dict, order_item_id):
     query, data, uuid = generate_update_statement(
-        'store.order_item',
+        f'{myDatabase}.order_item',
         data_dict,
         [],
         [],
@@ -65,7 +66,7 @@ def update_order_item(conn, data_dict, order_item_id):
 
 
 def delete_order_item(conn, order_item_id):
-    query = f"DELETE FROM store.order_item where BIN_TO_UUID(order_item_id) = '{order_item_id}';"
+    query = f"DELETE FROM {myDatabase}.order_item where BIN_TO_UUID(order_item_id) = '{order_item_id}';"
     try:
         cursor = conn.cursor()
         cursor.execute(query)

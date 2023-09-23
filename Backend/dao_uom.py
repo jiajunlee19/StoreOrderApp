@@ -1,10 +1,11 @@
 import mysql.connector
-from Backend.db_connection import connect_mysql, select_query, generate_insert_statement, generate_update_statement
+from Backend.db_connection import (myDatabase, connect_mysql,  select_query,
+                                   generate_insert_statement, generate_update_statement)
 from datetime import datetime
 
 
 def get_uom(conn):
-    query = "select BIN_TO_UUID(uom_id) as uom_id, uom_name from store.uom"
+    query = f"select BIN_TO_UUID(uom_id) as uom_id, uom_name from {myDatabase}.uom"
     cursor = conn.cursor()
     response = select_query(cursor, query)
     return response
@@ -12,7 +13,7 @@ def get_uom(conn):
 
 def insert_uom(conn, data_dict):
     query, data, uuid = generate_insert_statement(
-        'store.uom',
+        f'{myDatabase}.uom',
         data_dict,
         ['uom_id'],
         'uom_id',
@@ -34,7 +35,7 @@ def insert_uom(conn, data_dict):
 
 def update_uom(conn, data_dict, uom_id):
     query, data, uuid = generate_update_statement(
-        'store.uom',
+        f'{myDatabase}.uom',
         data_dict,
         [],
         [],
@@ -55,7 +56,7 @@ def update_uom(conn, data_dict, uom_id):
 
 
 def delete_uom(conn, uom_id):
-    query = f"DELETE FROM store.uom where BIN_TO_UUID(uom_id) = '{uom_id}';"
+    query = f"DELETE FROM {myDatabase}.uom where BIN_TO_UUID(uom_id) = '{uom_id}';"
     try:
         cursor = conn.cursor()
         cursor.execute(query)

@@ -1,13 +1,14 @@
 import mysql.connector
-from Backend.db_connection import connect_mysql,  select_query, generate_insert_statement, generate_update_statement
+from Backend.db_connection import (myDatabase, connect_mysql,  select_query,
+                                   generate_insert_statement, generate_update_statement)
 from datetime import datetime
 
 
 def get_member(conn):
-    query = """
+    query = f"""
         select BIN_TO_UUID(member_id) as member_id, member_name, BIN_TO_UUID(member_password) as member_password, 
         member_bonus_points, member_created_date, member_updated_date
-        from store.member
+        from {myDatabase}.member
     """
     cursor = conn.cursor()
     response = select_query(cursor, query)
@@ -17,7 +18,7 @@ def get_member(conn):
 def insert_member(conn, data_dict):
 
     query, data, uuid = generate_insert_statement(
-        'store.member',
+        f'{myDatabase}.member',
         data_dict,
         ['member_id', 'member_password'],
         'member_id',
@@ -40,7 +41,7 @@ def insert_member(conn, data_dict):
 def update_member(conn, data_dict, member_id):
 
     query, data, uuid = generate_update_statement(
-        'store.member',
+        f'{myDatabase}.member',
         data_dict,
         ['member_password'],
         ['member_password'],
@@ -62,7 +63,7 @@ def update_member(conn, data_dict, member_id):
 
 def delete_member(conn, member_id):
 
-    query = f"DELETE FROM store.member where BIN_TO_UUID(member_id) = '{member_id}';"
+    query = f"DELETE FROM {myDatabase}.member where BIN_TO_UUID(member_id) = '{member_id}';"
     try:
         cursor = conn.cursor()
         cursor.execute(query)

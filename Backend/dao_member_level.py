@@ -1,13 +1,14 @@
 import mysql.connector
-from Backend.db_connection import connect_mysql, select_query, generate_insert_statement, generate_update_statement
+from Backend.db_connection import (myDatabase, connect_mysql,  select_query,
+                                   generate_insert_statement, generate_update_statement)
 from datetime import datetime
 
 
 def get_member_level(conn):
-    query = """
+    query = f"""
         select BIN_TO_UUID(member_level_id) as member_level_id, member_level, bonus_points_min, bonus_points_max,
         member_level_created_date, member_level_updated_date
-        from store.member_level
+        from {myDatabase}.member_level
         order by bonus_points_min, bonus_points_max
     """
     cursor = conn.cursor()
@@ -17,7 +18,7 @@ def get_member_level(conn):
 
 def insert_member_level(conn, data_dict):
     query, data, uuid = generate_insert_statement(
-        'store.member_level',
+        f'{myDatabase}.member_level',
         data_dict,
         ['member_level_id'],
         'member_level_id',
@@ -39,7 +40,7 @@ def insert_member_level(conn, data_dict):
 
 def update_member_level(conn, data_dict, member_level_id):
     query, data, uuid = generate_update_statement(
-        'store.member_level',
+        f'{myDatabase}.member_level',
         data_dict,
         [],
         [],
@@ -60,7 +61,7 @@ def update_member_level(conn, data_dict, member_level_id):
 
 
 def delete_member_level(conn, member_level_id):
-    query = f"DELETE FROM store.member_level where BIN_TO_UUID(member_level_id) = '{member_level_id}';"
+    query = f"DELETE FROM {myDatabase}.member_level where BIN_TO_UUID(member_level_id) = '{member_level_id}';"
     try:
         cursor = conn.cursor()
         cursor.execute(query)
