@@ -2,14 +2,14 @@ import logging
 import os
 
 
-def logger_init(filename, mode):
+def logger_init(filename, folder='Logs', mode='a'):
     """Init logger, with console/file writer"""
 
     # loglevel could be one of these: ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
 
     # Create Logs/ folder if not exists
-    if not os.path.exists('Logs'):
-        os.makedirs('Logs')
+    if not os.path.exists(folder):
+        os.makedirs(folder)
 
     # create logger
     logger = logging.getLogger('logger')
@@ -20,7 +20,7 @@ def logger_init(filename, mode):
                                   datefmt='%Y-%m-%d %H:%M:%S')
 
     # create File handler
-    fh = logging.FileHandler(encoding='utf-8', filename=f"Logs/{filename}", mode=mode)
+    fh = logging.FileHandler(encoding='utf-8', filename=f"{folder}/{filename}", mode=mode)
 
     # create console handler
     ch = logging.StreamHandler()
@@ -39,7 +39,7 @@ def logger_init(filename, mode):
 
 if __name__ == "__main__":
     # Happy Logging!
-    log = logger_init('example.log', 'a')
+    log = logger_init('example.log', 'Logs', 'a')
     log.debug('debug message')
     log.info('info message')
     log.warning('warn message')
